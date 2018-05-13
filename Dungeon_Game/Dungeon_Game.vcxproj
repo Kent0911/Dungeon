@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>15.0</VCProjectVersion>
+    <ProjectGuid>{12D82CAE-8177-4DE2-A504-0D25A6EDF1BE}</ProjectGuid>
+    <RootNamespace>DungeonGame</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <IncludePath>C:\Users\Kent Kurosawa\Documents\Visual Studio 2017\Projects\Dungeon_Game\Dungeon_Game\Library\KitLib\include;C:\Users\Kent Kurosawa\Documents\Visual Studio 2017\Projects\Dungeon_Game\Dungeon_Game\Library\DirectXTK\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Users\Kent Kurosawa\Documents\Visual Studio 2017\Projects\Dungeon_Game\Dungeon_Game\Library\KitLib\lib;C:\Users\Kent Kurosawa\Documents\Visual Studio 2017\Projects\Dungeon_Game\Dungeon_Game\Library\DirectXTK\lib;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <IncludePath>Library\KitLib\include;Library\DirectXTK\include;$(IncludePath)</IncludePath>
+    <LibraryPath>Library\KitLib\lib;Library\DirectXTK\lib;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LibraryPath>C:\Users\Kent Kurosawa\Documents\Visual Studio 2017\Projects\Dungeon_Game\Dungeon_Game\Library\DirectXTK\lib;C:\Users\Kent Kurosawa\Documents\Visual Studio 2017\Projects\Dungeon_Game\Dungeon_Game\Library\KitLib\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\Users\Kent Kurosawa\Documents\Visual Studio 2017\Projects\Dungeon_Game\Dungeon_Game\Library\KitLib\include;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>DirectXTK_debug.lib;KitLib_debug.lib;d3d11.lib;Xinput.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>Kitlib.lib;DirectXTK.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>DirectXTK.lib;KitLib.lib;d3d11.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="GameSource\Configurations\GameConfiguration\GameConfiguration.cpp" />
+    <ClCompile Include="GameSource\Configurations\SystemConfiguration\SystemConfiguration.cpp" />
+    <ClCompile Include="GameSource\GameObjects\Character\Character.cpp" />
+    <ClCompile Include="GameSource\GameObjects\LeadingInsect\LeadingInsect.cpp" />
+    <ClCompile Include="GameSource\GameObjects\Torch\Torch.cpp" />
+    <ClCompile Include="GameSource\Player\Player.cpp" />
+    <ClCompile Include="GameSource\Scenes\GameMain\GameMain.cpp" />
+    <ClCompile Include="GameSource\Scenes\Result\Result.cpp" />
+    <ClCompile Include="GameSource\Scenes\SelectDevice\SelectDevice.cpp" />
+    <ClCompile Include="GameSource\Scenes\StartMenu\StartMenu.cpp" />
+    <ClCompile Include="GameSource\Scenes\Title\Title.cpp" />
+    <ClCompile Include="GameSource\Scenes\Tutorial\Tutorial.cpp" />
+    <ClCompile Include="GameSource\WinMain\WinMain.cpp" />
+    <ClCompile Include="KitEngine\AssetsManager\AssetsManager.cpp" />
+    <ClCompile Include="KitEngine\CWindow\CWindow.cpp" />
+    <ClCompile Include="KitEngine\KitBehaviour\KitBehaviour.cpp" />
+    <ClCompile Include="KitEngine\KitEngine.cpp" />
+    <ClCompile Include="KitEngine\Render\Render.cpp" />
+    <ClCompile Include="KitEngine\SceneManager\SceneManager.cpp" />
+    <ClCompile Include="KitEngine\SceneManager\Scene\Scene.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="GameSource\Configurations\GameConfiguration\GameConfiguration.h" />
+    <ClInclude Include="GameSource\Configurations\SystemConfiguration\SystemConfiguration.h" />
+    <ClInclude Include="GameSource\GameObjects\Character\Character.h" />
+    <ClInclude Include="GameSource\GameObjects\LeadingInsect\LeadingInsect.h" />
+    <ClInclude Include="GameSource\GameObjects\Torch\Torch.h" />
+    <ClInclude Include="GameSource\Player\Player.h" />
+    <ClInclude Include="GameSource\Scenes\GameMain\GameMain.h" />
+    <ClInclude Include="GameSource\Scenes\Result\Result.h" />
+    <ClInclude Include="GameSource\Scenes\SelectDevice\SelectDevice.h" />
+    <ClInclude Include="GameSource\Scenes\StartMenu\StartMenu.h" />
+    <ClInclude Include="GameSource\Scenes\Title\Title.h" />
+    <ClInclude Include="GameSource\Scenes\Tutorial\Tutorial.h" />
+    <ClInclude Include="KitEngine\AssetsManager\AssetsManager.h" />
+    <ClInclude Include="KitEngine\CWindow\CWindow.h" />
+    <ClInclude Include="KitEngine\KitBehaviour\KitBehaviour.h" />
+    <ClInclude Include="KitEngine\KitEngine.h" />
+    <ClInclude Include="KitEngine\Render\Render.h" />
+    <ClInclude Include="KitEngine\SceneManager\SceneManager.h" />
+    <ClInclude Include="KitEngine\SceneManager\Scene\Scene.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
