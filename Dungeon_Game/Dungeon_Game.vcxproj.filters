@@ -77,6 +77,9 @@
     <Filter Include="GameSource\Scenes\SelectDevice">
       <UniqueIdentifier>{165b0788-2a1a-4e62-a146-d9a8ad5050b5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameSource\Scenes\Title\TitleFonts">
+      <UniqueIdentifier>{100d6fe0-ae9d-4b5d-9c22-1df2846fbbdd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameSource\WinMain\WinMain.cpp">
@@ -139,6 +142,9 @@
     <ClCompile Include="GameSource\Configurations\GameConfiguration\GameConfiguration.cpp">
       <Filter>GameSource\Configurations\GameConfiguration</Filter>
     </ClCompile>
+    <ClCompile Include="GameSource\Scenes\Title\TitleFonts\TitleFonts.cpp">
+      <Filter>GameSource\Scenes\Title\TitleFonts</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="KitEngine\KitEngine.h">
@@ -197,6 +203,9 @@
     </ClInclude>
     <ClInclude Include="GameSource\Scenes\SelectDevice\SelectDevice.h">
       <Filter>GameSource\Scenes\SelectDevice</Filter>
+    </ClInclude>
+    <ClInclude Include="GameSource\Scenes\Title\TitleFonts\TitleFonts.h">
+      <Filter>GameSource\Scenes\Title\TitleFonts</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

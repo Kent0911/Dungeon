@@ -144,6 +144,7 @@
     <ClCompile Include="GameSource\Scenes\SelectDevice\SelectDevice.cpp" />
     <ClCompile Include="GameSource\Scenes\StartMenu\StartMenu.cpp" />
     <ClCompile Include="GameSource\Scenes\Title\Title.cpp" />
+    <ClCompile Include="GameSource\Scenes\Title\TitleFonts\TitleFonts.cpp" />
     <ClCompile Include="GameSource\Scenes\Tutorial\Tutorial.cpp" />
     <ClCompile Include="GameSource\WinMain\WinMain.cpp" />
     <ClCompile Include="KitEngine\AssetsManager\AssetsManager.cpp" />
@@ -166,6 +167,7 @@
     <ClInclude Include="GameSource\Scenes\SelectDevice\SelectDevice.h" />
     <ClInclude Include="GameSource\Scenes\StartMenu\StartMenu.h" />
     <ClInclude Include="GameSource\Scenes\Title\Title.h" />
+    <ClInclude Include="GameSource\Scenes\Title\TitleFonts\TitleFonts.h" />
     <ClInclude Include="GameSource\Scenes\Tutorial\Tutorial.h" />
     <ClInclude Include="KitEngine\AssetsManager\AssetsManager.h" />
     <ClInclude Include="KitEngine\CWindow\CWindow.h" />
