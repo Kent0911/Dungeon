@@ -4,6 +4,7 @@
 #include <vector>
 
 #include "../../../../KitEngine/Render/Render.h"
+#include "../../SceneFonts/SceneFonts.h"
 #include "../../../Configurations/GameConfiguration/GameConfiguration.h"
 #include "../../../Configurations/SystemConfiguration/SystemConfiguration.h"
 
@@ -13,17 +14,4 @@ enum class TitleFontList {
 	Max
 };
 
-typedef struct {
-	kit::Engine::Font	f_fonts;
-}TITLEFONT;
-
-class TitleFonts {
-private:
-	std::vector<kit::Engine::Font*> mvec_fonts;
-
-public:
-	TitleFonts();
-	~TitleFonts();
-
-	void Display();
-};
+extern SCENEFONTS titleFont[static_cast<char>(TitleFontList::Max)];

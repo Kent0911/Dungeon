@@ -76,16 +76,21 @@ void Player::ControlTitle(kit::Engine::KitEngine* _engine) {
 	// GamePad press start button or Keyboard enter key
 	if (static_cast<unsigned int>(kit::GamePad_Buttons::Start) & mc_devices.mc_gamePad.GetState(md_gamePadNumber).wButtons || mc_devices.muptr_keyboard->GetState().Enter) {
 		ChangeScene(_engine);
+		mfunc_UpdateFunc = &Player::ControlSelectDevice;
 	}
+}
+
+void Player::ControlSelectDevice(kit::Engine::KitEngine* _engine) {
+	
 }
 
 void Player::ChangeMode() {
 	if (mb_SelectedGamePad) {// true
 		if (static_cast<char>(MODE::Player) & mc_changeModeFlag) {
-			mfunc_UpdateFunc = &Player::GPControlGameMain;
+			mfunc_UpdateFunc = &Player::PadControlGameMain;
 		}
 		if (static_cast<char>(MODE::Torch) & mc_changeModeFlag) {
-			mfunc_UpdateFunc = &Player::GPControlTorch;
+			mfunc_UpdateFunc = &Player::PadControlTorch;
 		}
 	}
 	else {// false
@@ -117,7 +122,7 @@ void Player::Jump() {
 
 }
 
-void Player::GPMove() {
+void Player::PadMove() {
 	short thumbLX = mc_devices.mc_gamePad.GetState(md_gamePadNumber).sThumbLX;
 	if (-GAMEPAD_THRESHOLD > thumbLX) {
 		muptr_character->MovePosX(-MOVE_SPEED);
@@ -127,15 +132,16 @@ void Player::GPMove() {
 	}
 }
 
-void Player::GPControlGameMain(kit::Engine::KitEngine* _engine) {
-	GPMove();
+void Player::PadControlGameMain(kit::Engine::KitEngine* _engine) {
+	PadMove();
 	if (static_cast<unsigned int>(kit::GamePad_Buttons::L1) & mc_devices.mc_gamePad.GetState(md_gamePadNumber).wButtons) {
 		mc_isActiveTorchsNumber = FindUsableTorch();
-		mc_changeModeFlag = static_cast<char>(MODE::Torch);
+		ChangeMode(static_cast<char>(MODE::Torch));
+		ChangeMode();
 	}
 }
 
-void Player::GPControlTorch(kit::Engine::KitEngine*) {
+void Player::PadControlTorch(kit::Engine::KitEngine*) {
 	mvec_torchs[mc_isActiveTorchsNumber]->GPControl(&mc_devices);
 }
 
@@ -152,7 +158,8 @@ void Player::KeyControlGameMain(kit::Engine::KitEngine* _engine) {
 	KeyMove();
 	if (mc_devices.muptr_keyboard->GetState().T) {
 		mc_isActiveTorchsNumber = FindUsableTorch();
-		mc_changeModeFlag = static_cast<char>(MODE::Torch);
+		ChangeMode(static_cast<char>(MODE::Torch));
+		ChangeMode();
 	}
 }
 
@@ -161,8 +168,5 @@ void Player::KeyControlTorch(kit::Engine::KitEngine*) {
 }
 
 void Player::Update(kit::Engine::KitEngine* _engine) {
-	if (static_cast<char>(SCENE::Title) != mc_sceneNumber || static_cast<char>(SCENE::SelectDevice) != mc_sceneNumber) {
-		ChangeMode();
-	}
 	(this->*mfunc_UpdateFunc)(_engine);
 }

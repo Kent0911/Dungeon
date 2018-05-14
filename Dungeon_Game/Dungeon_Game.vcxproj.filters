@@ -80,6 +80,12 @@
     <Filter Include="GameSource\Scenes\Title\TitleFonts">
       <UniqueIdentifier>{100d6fe0-ae9d-4b5d-9c22-1df2846fbbdd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameSource\Scenes\SelectDevice\SelectDeviceFonts">
+      <UniqueIdentifier>{c70c99f5-ffd2-4084-80ee-6da245e75248}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameSource\Scenes\SceneFonts">
+      <UniqueIdentifier>{741ae9c7-e983-4111-a653-8039beb5698a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameSource\WinMain\WinMain.cpp">
@@ -145,6 +151,12 @@
     <ClCompile Include="GameSource\Scenes\Title\TitleFonts\TitleFonts.cpp">
       <Filter>GameSource\Scenes\Title\TitleFonts</Filter>
     </ClCompile>
+    <ClCompile Include="GameSource\Scenes\SelectDevice\SelectDeviceFonts\SelectDeviceFonts.cpp">
+      <Filter>GameSource\Scenes\SelectDevice\SelectDeviceFonts</Filter>
+    </ClCompile>
+    <ClCompile Include="GameSource\Scenes\SceneFonts\SceneFonts.cpp">
+      <Filter>GameSource\Scenes\SceneFonts</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="KitEngine\KitEngine.h">
@@ -206,6 +218,12 @@
     </ClInclude>
     <ClInclude Include="GameSource\Scenes\Title\TitleFonts\TitleFonts.h">
       <Filter>GameSource\Scenes\Title\TitleFonts</Filter>
+    </ClInclude>
+    <ClInclude Include="GameSource\Scenes\SelectDevice\SelectDeviceFonts\SelectDeviceFonts.h">
+      <Filter>GameSource\Scenes\SelectDevice\SelectDeviceFonts</Filter>
+    </ClInclude>
+    <ClInclude Include="GameSource\Scenes\SceneFonts\SceneFonts.h">
+      <Filter>GameSource\Scenes\SceneFonts</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

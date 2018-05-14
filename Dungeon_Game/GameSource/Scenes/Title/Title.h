@@ -12,12 +12,12 @@
 #include "../../../Library/KitLib/include/Kitlib.h"
 #include "../../../Library/DirectXTK/include/SimpleMath.h"
 #include "TitleFonts\TitleFonts.h"
+#include "../SceneFonts/SceneFonts.h"
 
 extern class TitleFonts;
 
 class Title :public kit::Engine::Scene {
 private:
-	TitleFonts*	mf_title;
 
 public:
 	Title();

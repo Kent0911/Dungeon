@@ -141,7 +141,9 @@
     <ClCompile Include="GameSource\Player\Player.cpp" />
     <ClCompile Include="GameSource\Scenes\GameMain\GameMain.cpp" />
     <ClCompile Include="GameSource\Scenes\Result\Result.cpp" />
+    <ClCompile Include="GameSource\Scenes\SceneFonts\SceneFonts.cpp" />
     <ClCompile Include="GameSource\Scenes\SelectDevice\SelectDevice.cpp" />
+    <ClCompile Include="GameSource\Scenes\SelectDevice\SelectDeviceFonts\SelectDeviceFonts.cpp" />
     <ClCompile Include="GameSource\Scenes\StartMenu\StartMenu.cpp" />
     <ClCompile Include="GameSource\Scenes\Title\Title.cpp" />
     <ClCompile Include="GameSource\Scenes\Title\TitleFonts\TitleFonts.cpp" />
@@ -164,7 +166,9 @@
     <ClInclude Include="GameSource\Player\Player.h" />
     <ClInclude Include="GameSource\Scenes\GameMain\GameMain.h" />
     <ClInclude Include="GameSource\Scenes\Result\Result.h" />
+    <ClInclude Include="GameSource\Scenes\SceneFonts\SceneFonts.h" />
     <ClInclude Include="GameSource\Scenes\SelectDevice\SelectDevice.h" />
+    <ClInclude Include="GameSource\Scenes\SelectDevice\SelectDeviceFonts\SelectDeviceFonts.h" />
     <ClInclude Include="GameSource\Scenes\StartMenu\StartMenu.h" />
     <ClInclude Include="GameSource\Scenes\Title\Title.h" />
     <ClInclude Include="GameSource\Scenes\Title\TitleFonts\TitleFonts.h" />

@@ -11,8 +11,8 @@
 
 class SelectDevice :public kit::Engine::Scene {
 private:
-	char										mc_selectDevice;
-	std::vector<kit::Engine::Font>				mvec_fonts;
+	char	mc_selectDevice;
+	
 
 public:
 	SelectDevice();

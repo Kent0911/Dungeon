@@ -3,11 +3,11 @@
 Title::Title() {
 	mc_sceneNumber = static_cast<unsigned char>(SCENE::Title);
 	g_player.GetInstance().SetSceneNumber(mc_sceneNumber);
-	mf_title = new TitleFonts;
+	g_sceneFonts.GetInstance().AddFontList(titleFont, static_cast<int>(TitleFontList::Max));
 }
 
 Title::~Title() {
-	
+	g_sceneFonts.GetInstance().ClearFontList();
 }
 
 void Title::Update() {
@@ -16,5 +16,5 @@ void Title::Update() {
 
 void Title::Render() {
 	kit::Engine::g_assetsManager.GetInstance().Render();
-	mf_title->Display();
+	g_sceneFonts.GetInstance().DisplayFont();
 }

@@ -65,12 +65,13 @@ private:
 
 	void ChangeScene(kit::Engine::KitEngine* _engine);
 	void ControlTitle(kit::Engine::KitEngine* _engine);
+	void ControlSelectDevice(kit::Engine::KitEngine* _engine);
 
 	void ChangeMode();
 	void Jump();
-	void GPMove();
-	void GPControlGameMain(kit::Engine::KitEngine* _engine);
-	void GPControlTorch(kit::Engine::KitEngine*);
+	void PadMove();
+	void PadControlGameMain(kit::Engine::KitEngine* _engine);
+	void PadControlTorch(kit::Engine::KitEngine*);
 	void KeyMove();
 	void KeyControlGameMain(kit::Engine::KitEngine* _engine);
 	void KeyControlTorch(kit::Engine::KitEngine*);
