@@ -13,8 +13,8 @@ namespace kit {
 	namespace Engine {
 
 		extern class Scene;
-		extern AssetsManager	g_assetsManager;
-		extern SceneFonts		g_sceneFonts;
+		extern AssetsManager		g_assetsManager;
+		extern class SceneFonts		g_sceneFonts;
 
 		class SceneManager{
 		private:
