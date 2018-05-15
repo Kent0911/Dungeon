@@ -21,6 +21,15 @@ void SelectDevice::SelectDevices() {
 		mc_selectDevice--;
 	}
 
+	if (g_player.GetInstance().GetDevicesState()->mc_gamePad.GetState(g_player.GetInstance().GetDword()).wButtons & static_cast<int>(kit::GamePad_Buttons::A)
+		|| g_player.GetInstance().GetDevicesState()->muptr_keyboard->GetState().Enter) {
+		if (0 == mc_selectDevice % 2) {
+			g_player.GetInstance().SetDevice(true);
+		}
+		else {
+			g_player.GetInstance().SetDevice(false);
+		}
+	}
 
 }
 

@@ -86,6 +86,9 @@ public:
 	inline void SetModeFlag(const char _flag) {
 		mc_changeModeFlag = _flag;
 	}
+	inline void SetDevice(const bool _flag) {
+		mb_SelectedGamePad = _flag;
+	}
 	inline void SubTorchsCounts() {
 		mc_havingTorchs--;
 	}

@@ -81,7 +81,15 @@ void Player::ControlTitle(kit::Engine::KitEngine* _engine) {
 }
 
 void Player::ControlSelectDevice(kit::Engine::KitEngine* _engine) {
-
+	if (static_cast<int>(kit::GamePad_Buttons::A) & mc_devices.mc_gamePad.GetState(md_gamePadNumber).wButtons || mc_devices.muptr_keyboard->GetState().Enter) {
+		ChangeScene(_engine);
+		if (mb_SelectedGamePad) {
+			mfunc_UpdateFunc = &Player::PadControlGameMain;
+		}
+		else {
+			mfunc_UpdateFunc = &Player::KeyControlGameMain;
+		}
+	}
 }
 
 void Player::ChangeMode() {
