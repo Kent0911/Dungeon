@@ -1,0 +1,33 @@
+﻿  Scene.cpp
+  SceneManager.cpp
+  Render.cpp
+  Fonts.cpp
+  KitEngine.cpp
+  KitBehaviour.cpp
+  CWindow.cpp
+  AssetsManager.cpp
+  WinMain.cpp
+c:\users\kent kurosawa\documents\github\dungeon\dungeon_game\gamesource\winmain\winmain.cpp(40): warning C4007: 'WinMain': '__stdcall' でなければなりません。
+  Tutorial.cpp
+  TitleFonts.cpp
+  Title.cpp
+  StartMenu.cpp
+  SelectDeviceFonts.cpp
+  SelectDevice.cpp
+  Result.cpp
+  GameMain.cpp
+  Player.cpp
+  Torch.cpp
+c:\users\kent kurosawa\documents\github\dungeon\dungeon_game\gamesource\gameobjects\torch\torch.cpp(14): warning C4554: '|': 演算子の優先順位に問題があります。かっこを使用して優先順位を明確にしてください
+c:\users\kent kurosawa\documents\github\dungeon\dungeon_game\gamesource\gameobjects\torch\torch.cpp(17): warning C4554: '|': 演算子の優先順位に問題があります。かっこを使用して優先順位を明確にしてください
+  LeadingInsect.cpp
+  コードを生成中...
+c:\users\kent kurosawa\documents\github\dungeon\dungeon_game\gamesource\player\player.cpp(56): warning C4715: 'Player::FindUsableTorch': 値を返さないコントロール パスがあります。
+c:\users\kent kurosawa\documents\github\dungeon\dungeon_game\kitengine\cwindow\cwindow.cpp(63): warning C4715: 'kit::Engine::CWindow::InitWindow': 値を返さないコントロール パスがあります。
+  コンパイル中...
+  Character.cpp
+  SystemConfiguration.cpp
+  GameConfiguration.cpp
+  コードを生成中...
+c:\users\kent kurosawa\documents\github\dungeon\dungeon_game\gamesource\gameobjects\character\character.cpp(17): warning C4715: 'Character::LoadFile': 値を返さないコントロール パスがあります。
+  Dungeon_Game.vcxproj -> C:\Users\Kent Kurosawa\Documents\GitHub\Dungeon\Dungeon_Game\Debug\Dungeon_Game.exe
