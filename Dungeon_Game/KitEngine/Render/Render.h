@@ -18,6 +18,7 @@
 #include "../../Library/DirectXTK/include/ScreenGrab.h"
 #include "../../Library/DirectXTK/include/VertexTypes.h"
 #include "../../Library/KitLib/include/Kitlib.h"
+#include "Fonts\Fonts.h"
 
 
 namespace kit {
@@ -34,6 +35,7 @@ namespace kit {
 		extern std::unique_ptr<DirectX::GeometricPrimitive>								g_uptrShape;
 		extern std::unique_ptr<DirectX::Model>											g_uptrModel;
 		extern std::unique_ptr<DirectX::PrimitiveBatch<DirectX::VertexPositionColor>>	g_uptrBatch;
+		
 
 		class CameraStatus {
 		public:
@@ -45,35 +47,5 @@ namespace kit {
 		HRESULT RenderInitalize();
 
 		DirectX::XMMATRIX LookVector(CameraStatus* _state);
-
-
-		// font class
-
-		class Font {
-		private:
-			std::string		m_str;
-			kit::vec2		mvec_displayPosition;
-			float			mf_scale;
-
-			DirectX::XMFLOAT2 GetDisplayPos();
-		public:
-			Font(std::string _str, kit::vec2 _pos);
-			Font(std::string _str, kit::vec2 _pos, float _scale);
-			~Font();
-			inline void SetStr(const std::string _str) {
-				m_str = _str;
-			}
-			inline void SetPosition(const kit::vec2 _pos) {
-				mvec_displayPosition = _pos;
-			}
-			inline void SetScale(const float _scale) {
-				mf_scale = _scale;
-			}
-			void DisplayFont(DirectX::XMVECTOR _color);
-
-		};
-
-
-		
 	}
 }

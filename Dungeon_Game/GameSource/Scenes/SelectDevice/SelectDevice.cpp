@@ -3,6 +3,7 @@
 SelectDevice::SelectDevice() {
 	mc_sceneNumber = static_cast<char>(SCENE::SelectDevice);
 	g_player.GetInstance().SetSceneNumber(mc_sceneNumber);
+	kit::Engine::g_sceneFonts.GetInstance().AddFontList(selectDeviceFont, static_cast<int>(SelectDeviceFontList::Max));
 }
 
 SelectDevice::~SelectDevice() {

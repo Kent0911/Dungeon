@@ -8,11 +8,12 @@
 #include "../../Configurations/GameConfiguration/GameConfiguration.h"
 #include "../../Configurations/SystemConfiguration/SystemConfiguration.h"
 #include "../../../KitEngine/Render/Render.h"
+#include "../../../KitEngine/Render/Fonts/Fonts.h"
+#include "SelectDeviceFonts\SelectDeviceFonts.h"
 
 class SelectDevice :public kit::Engine::Scene {
 private:
 	char	mc_selectDevice;
-	
 
 public:
 	SelectDevice();

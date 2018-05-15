@@ -141,7 +141,6 @@
     <ClCompile Include="GameSource\Player\Player.cpp" />
     <ClCompile Include="GameSource\Scenes\GameMain\GameMain.cpp" />
     <ClCompile Include="GameSource\Scenes\Result\Result.cpp" />
-    <ClCompile Include="GameSource\Scenes\SceneFonts\SceneFonts.cpp" />
     <ClCompile Include="GameSource\Scenes\SelectDevice\SelectDevice.cpp" />
     <ClCompile Include="GameSource\Scenes\SelectDevice\SelectDeviceFonts\SelectDeviceFonts.cpp" />
     <ClCompile Include="GameSource\Scenes\StartMenu\StartMenu.cpp" />
@@ -153,6 +152,7 @@
     <ClCompile Include="KitEngine\CWindow\CWindow.cpp" />
     <ClCompile Include="KitEngine\KitBehaviour\KitBehaviour.cpp" />
     <ClCompile Include="KitEngine\KitEngine.cpp" />
+    <ClCompile Include="KitEngine\Render\Fonts\Fonts.cpp" />
     <ClCompile Include="KitEngine\Render\Render.cpp" />
     <ClCompile Include="KitEngine\SceneManager\SceneManager.cpp" />
     <ClCompile Include="KitEngine\SceneManager\Scene\Scene.cpp" />
@@ -166,7 +166,6 @@
     <ClInclude Include="GameSource\Player\Player.h" />
     <ClInclude Include="GameSource\Scenes\GameMain\GameMain.h" />
     <ClInclude Include="GameSource\Scenes\Result\Result.h" />
-    <ClInclude Include="GameSource\Scenes\SceneFonts\SceneFonts.h" />
     <ClInclude Include="GameSource\Scenes\SelectDevice\SelectDevice.h" />
     <ClInclude Include="GameSource\Scenes\SelectDevice\SelectDeviceFonts\SelectDeviceFonts.h" />
     <ClInclude Include="GameSource\Scenes\StartMenu\StartMenu.h" />
@@ -177,6 +176,7 @@
     <ClInclude Include="KitEngine\CWindow\CWindow.h" />
     <ClInclude Include="KitEngine\KitBehaviour\KitBehaviour.h" />
     <ClInclude Include="KitEngine\KitEngine.h" />
+    <ClInclude Include="KitEngine\Render\Fonts\Fonts.h" />
     <ClInclude Include="KitEngine\Render\Render.h" />
     <ClInclude Include="KitEngine\SceneManager\SceneManager.h" />
     <ClInclude Include="KitEngine\SceneManager\Scene\Scene.h" />

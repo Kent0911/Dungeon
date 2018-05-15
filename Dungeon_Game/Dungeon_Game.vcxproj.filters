@@ -83,8 +83,8 @@
     <Filter Include="GameSource\Scenes\SelectDevice\SelectDeviceFonts">
       <UniqueIdentifier>{c70c99f5-ffd2-4084-80ee-6da245e75248}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GameSource\Scenes\SceneFonts">
-      <UniqueIdentifier>{741ae9c7-e983-4111-a653-8039beb5698a}</UniqueIdentifier>
+    <Filter Include="KitEngine\Render\Fonts">
+      <UniqueIdentifier>{3654da87-1c0b-4086-96e6-9aafccc9475b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -136,9 +136,6 @@
     <ClCompile Include="GameSource\Scenes\Tutorial\Tutorial.cpp">
       <Filter>GameSource\Scenes\Tutorial</Filter>
     </ClCompile>
-    <ClCompile Include="KitEngine\Render\Render.cpp">
-      <Filter>KitEngine\Render</Filter>
-    </ClCompile>
     <ClCompile Include="GameSource\GameObjects\Character\Character.cpp">
       <Filter>GameSource\GameObjects\Character</Filter>
     </ClCompile>
@@ -154,8 +151,11 @@
     <ClCompile Include="GameSource\Scenes\SelectDevice\SelectDeviceFonts\SelectDeviceFonts.cpp">
       <Filter>GameSource\Scenes\SelectDevice\SelectDeviceFonts</Filter>
     </ClCompile>
-    <ClCompile Include="GameSource\Scenes\SceneFonts\SceneFonts.cpp">
-      <Filter>GameSource\Scenes\SceneFonts</Filter>
+    <ClCompile Include="KitEngine\Render\Fonts\Fonts.cpp">
+      <Filter>KitEngine\Render\Fonts</Filter>
+    </ClCompile>
+    <ClCompile Include="KitEngine\Render\Render.cpp">
+      <Filter>KitEngine\Render</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -222,8 +222,8 @@
     <ClInclude Include="GameSource\Scenes\SelectDevice\SelectDeviceFonts\SelectDeviceFonts.h">
       <Filter>GameSource\Scenes\SelectDevice\SelectDeviceFonts</Filter>
     </ClInclude>
-    <ClInclude Include="GameSource\Scenes\SceneFonts\SceneFonts.h">
-      <Filter>GameSource\Scenes\SceneFonts</Filter>
+    <ClInclude Include="KitEngine\Render\Fonts\Fonts.h">
+      <Filter>KitEngine\Render\Fonts</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

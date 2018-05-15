@@ -4,6 +4,7 @@
 
 #include "Scene\Scene.h"
 #include "../AssetsManager/AssetsManager.h"
+#include "../Render/Fonts/Fonts.h"
 
 // extern‚ÌŒx‚Ì”ñ•\¦
 #pragma warning (disable:4091)
@@ -12,7 +13,8 @@ namespace kit {
 	namespace Engine {
 
 		extern class Scene;
-		extern AssetsManager g_assetsManager;
+		extern AssetsManager	g_assetsManager;
+		extern SceneFonts		g_sceneFonts;
 
 		class SceneManager{
 		private:
@@ -21,11 +23,9 @@ namespace kit {
 
 		public:
 			SceneManager(std::shared_ptr<Scene> _startScene);
+			~SceneManager();
 			void ChangeScene(const std::shared_ptr<Scene> _changeScene);
 			bool UndoChange();
-			inline unsigned char CurrentSceneNumber() const {
-//				msptr_currentScene->GetSceneNumber();
-			}
 
 			void Update();
 			void Render();

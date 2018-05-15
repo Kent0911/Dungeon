@@ -1,7 +1,7 @@
 #include "Scene.h"
 
 using namespace kit;
-using namespace Engine;
+using namespace kit::Engine;
 
 void Scene::SetManagerRef(SceneManager* _ref) {
 	mc_sceneManager = _ref;

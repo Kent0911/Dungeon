@@ -4,6 +4,7 @@
 #include <vector>
 
 #include "../../../../KitEngine/Render/Render.h"
+#include "../../../../KitEngine/Render/Fonts/Fonts.h"
 #include "../../../Configurations/GameConfiguration/GameConfiguration.h"
 
 
@@ -14,6 +15,4 @@ enum class SelectDeviceFontList {
 	Max
 };
 
-typedef struct {
-	kit::Engine::Font f_fonts;
-}SELECTDEVICEFONT;
+extern kit::Engine::SCENEFONTS selectDeviceFont[static_cast<char>(SelectDeviceFontList::Max)];

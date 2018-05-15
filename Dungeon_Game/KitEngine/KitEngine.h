@@ -6,8 +6,10 @@
 
 #include "CWindow\CWindow.h"
 #include "AssetsManager\AssetsManager.h"
+#include "SceneManager\Scene\Scene.h"
 #include "SceneManager\SceneManager.h"
 #include "Render\Render.h"
+#include "Render\Fonts\Fonts.h"
 #include "../Library/DirectXTK/include/SpriteBatch.h"
 
 #pragma comment(lib,"d3d11.lib")
@@ -66,6 +68,9 @@ namespace kit {
 			}
 		};
 
+		extern class Scene;
+		extern class SceneManager;
+
 		class Config {
 		public:
 			LPSTR						mlp_str;
@@ -86,9 +91,7 @@ namespace kit {
 		public:
 			KitEngine(HINSTANCE _hInstance, int _nCmdShow, Config* _config);
 			~KitEngine();
-			inline unsigned char CurrentSceneNumber() const {
-				muptr_sceneManager->CurrentSceneNumber();
-			}
+
 			void ChangeScene(std::shared_ptr<Scene> _changeScene);
 
 			void Update();
