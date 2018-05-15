@@ -12,6 +12,7 @@ enum class SelectDeviceFontList {
 	Please_select,
 	GamePad,
 	KeyboardAndMouse,
+	Pointer,
 	Max
 };
 

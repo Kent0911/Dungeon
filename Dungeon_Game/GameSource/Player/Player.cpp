@@ -81,7 +81,7 @@ void Player::ControlTitle(kit::Engine::KitEngine* _engine) {
 }
 
 void Player::ControlSelectDevice(kit::Engine::KitEngine* _engine) {
-	
+
 }
 
 void Player::ChangeMode() {

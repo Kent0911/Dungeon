@@ -39,7 +39,7 @@ HRESULT kit::Engine::RenderInitalize() {
 
 		if (FAILED(hr)) { return hr; }
 	}
-	g_uptrFonts.reset(new DirectX::SpriteFont(g_pd3dDevice, L"italic.spritefont"));
+	g_uptrFonts.reset(new DirectX::SpriteFont(g_pd3dDevice, L"Resource/Font/italic.spritefont"));
 
 	return S_OK;
 }

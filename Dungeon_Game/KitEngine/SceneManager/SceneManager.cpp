@@ -17,8 +17,6 @@ SceneManager::~SceneManager() {
 }
 
 void SceneManager::ChangeScene(const std::shared_ptr<Scene> _changeScene) {
-	g_assetsManager.GetInstance().ClearAssets();
-	g_sceneFonts.GetInstance().ClearFontList();
 	msptr_previousScene = msptr_currentScene;
 	msptr_currentScene = _changeScene;
 	msptr_currentScene->SetManagerRef(this);

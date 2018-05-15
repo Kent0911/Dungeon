@@ -19,6 +19,8 @@ public:
 	SelectDevice();
 	~SelectDevice();
 
+	void SelectDevices();
+
 	virtual void Update();
 	virtual void Render();
 };

@@ -92,6 +92,9 @@ public:
 	inline void SubLeadingInsectsCounts() {
 		mc_havingLeadingInsects--;
 	}
+	inline Devices* GetDevicesState(){
+		return &mc_devices;
+	}
 	void Update(kit::Engine::KitEngine* _engine);
 };
 

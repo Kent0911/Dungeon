@@ -66,9 +66,14 @@ SceneFonts::SceneFonts() {
 }
 
 void SceneFonts::AddFontList(SCENEFONTS _font[], int _max) {
+	ClearFontList();
 	for (int i = 0; i < _max; ++i) {
 		mvec_sceneFonts.push_back(&_font[i].f_fonts);
 	}
+}
+
+void SceneFonts::MoveFont(int _number, kit::vec2* _pos) {
+	mvec_sceneFonts[_number]->MovePosition(_pos);
 }
 
 void SceneFonts::ClearFontList() {

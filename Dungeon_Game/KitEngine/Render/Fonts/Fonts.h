@@ -30,6 +30,10 @@ namespace kit {
 			Font(Font* _config);
 			~Font();
 
+			inline void MovePosition(kit::vec2* _pos) {
+				mvec_displayPosition = *_pos;
+			}
+
 			void DisplayFont();
 			void DisplayFont(DirectX::XMVECTOR _color);
 		};
@@ -48,6 +52,7 @@ namespace kit {
 			
 		public:
 			void AddFontList(SCENEFONTS _font[], int _max);
+			void MoveFont(int _number, kit::vec2* _pos);
 			void ClearFontList();
 			void DisplayFont();
 		};
