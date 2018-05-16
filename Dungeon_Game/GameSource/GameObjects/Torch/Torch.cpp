@@ -8,7 +8,7 @@ Torch::~Torch() {
 
 }
 
-void Torch::GPMoveTorch(Devices* _device) {
+void Torch::PadMoveTorch(Devices* _device) {
 	short thumbLX = _device->mc_gamePad.GetState(g_player.GetInstance().GetDword()).sThumbLX;
 	short thumbLY = _device->mc_gamePad.GetState(g_player.GetInstance().GetDword()).sThumbLY;
 	if (thumbLX > GAMEPAD_THRESHOLD | -GAMEPAD_THRESHOLD > thumbLX) {
@@ -19,8 +19,8 @@ void Torch::GPMoveTorch(Devices* _device) {
 	}
 }
 
-void Torch::GPControl(Devices* _device) {
-	GPMoveTorch(_device);
+void Torch::PadControl(Devices* _device) {
+	PadMoveTorch(_device);
 
 	// GamePad = Åõ
 	if (static_cast<unsigned int>(kit::GamePad_Buttons::A) & _device->mc_gamePad.GetState(g_player.GetInstance().GetDword()).wButtons) {

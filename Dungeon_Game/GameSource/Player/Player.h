@@ -57,7 +57,7 @@ private:
 
 	void(Player::*mfunc_UpdateFunc)(kit::Engine::KitEngine*);
 
-	void GameSetUp();
+	void GameSetup();
 	void StockTorchs(const unsigned char _num);
 	void StockLeadingInsects(const unsigned char _num);
 

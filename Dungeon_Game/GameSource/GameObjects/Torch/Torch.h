@@ -26,8 +26,8 @@ public:
 		mvec_position = *_pos;
 	}
 
-	void GPMoveTorch(Devices* _device);
-	void GPControl(Devices* _device);
+	void PadMoveTorch(Devices* _device);
+	void PadControl(Devices* _device);
 
 	void KeyMoveTorch(Devices* _device);
 	void KeyControl(Devices* _device);

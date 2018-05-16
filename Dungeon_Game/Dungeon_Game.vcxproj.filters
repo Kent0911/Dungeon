@@ -86,6 +86,9 @@
     <Filter Include="KitEngine\Render\Fonts">
       <UniqueIdentifier>{3654da87-1c0b-4086-96e6-9aafccc9475b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameSource\Stages\Tutorial">
+      <UniqueIdentifier>{29d1b2cd-f31b-4286-a8b0-9748951de38d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameSource\WinMain\WinMain.cpp">

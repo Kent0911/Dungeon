@@ -8,7 +8,8 @@ Player::Player() {
 	mc_sceneNumber = START_SCENE_NUMBER;
 }
 
-void Player::GameSetUp() {
+void Player::GameSetup() {
+	muptr_character.reset(new Character());
 	switch (mc_selectedDifficulty) {
 	case static_cast<char>(DIFFICULTY::Tutorial) :
 		StockTorchs(static_cast<char>(DIFFICULTY::Tutorial));
@@ -63,6 +64,7 @@ void Player::ChangeScene(kit::Engine::KitEngine* _engine) {
 
 	case static_cast<unsigned char>(SCENE::SelectDevice) :
 		_engine->ChangeScene(std::make_shared<Tutorial>());
+		GameSetup();
 		break;
 
 	case static_cast<unsigned char>(SCENE::StartMenu) :
@@ -78,6 +80,7 @@ void Player::ControlTitle(kit::Engine::KitEngine* _engine) {
 		ChangeScene(_engine);
 		mfunc_UpdateFunc = &Player::ControlSelectDevice;
 	}
+	mc_devices.muptr_keyboard->Reset();
 }
 
 void Player::ControlSelectDevice(kit::Engine::KitEngine* _engine) {
@@ -150,7 +153,7 @@ void Player::PadControlGameMain(kit::Engine::KitEngine* _engine) {
 }
 
 void Player::PadControlTorch(kit::Engine::KitEngine*) {
-	mvec_torchs[mc_isActiveTorchsNumber]->GPControl(&mc_devices);
+	mvec_torchs[mc_isActiveTorchsNumber]->PadControl(&mc_devices);
 }
 
 void Player::KeyMove() {
@@ -177,4 +180,5 @@ void Player::KeyControlTorch(kit::Engine::KitEngine*) {
 
 void Player::Update(kit::Engine::KitEngine* _engine) {
 	(this->*mfunc_UpdateFunc)(_engine);
+
 }

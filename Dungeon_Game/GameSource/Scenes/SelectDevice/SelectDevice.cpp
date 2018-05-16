@@ -9,20 +9,19 @@ SelectDevice::SelectDevice() {
 
 SelectDevice::~SelectDevice() {
 
-}
+} 
 
 void SelectDevice::SelectDevices() {
-	if (g_player.GetInstance().GetDevicesState()->mc_gamePad.GetState(g_player.GetInstance().GetDword()).wButtons & static_cast<int>(kit::GamePad_Buttons::Up)
-		|| g_player.GetInstance().GetDevicesState()->muptr_keyboard->GetState().Up || g_player.GetInstance().GetDevicesState()->muptr_keyboard->GetState().W) {
+	XINPUT_GAMEPAD padState = g_player.GetInstance().GetDevicesState()->mc_gamePad.GetState(g_player.GetInstance().GetDword());
+	DirectX::Keyboard::State keyState = g_player.GetInstance().GetDevicesState()->muptr_keyboard->GetState();
+
+	if ( padState.wButtons & static_cast<int>( kit::GamePad_Buttons::Up )|| keyState.IsKeyDown( DirectX::Keyboard::Up ) || keyState.IsKeyDown( DirectX::Keyboard::W )) {
 		mc_selectDevice++;
 	}
-	if (g_player.GetInstance().GetDevicesState()->mc_gamePad.GetState(g_player.GetInstance().GetDword()).wButtons & static_cast<int>(kit::GamePad_Buttons::Down)
-		|| g_player.GetInstance().GetDevicesState()->muptr_keyboard->GetState().Down || g_player.GetInstance().GetDevicesState()->muptr_keyboard->GetState().S) {
+	if( keyState.IsKeyDown( DirectX::Keyboard::Down ) || keyState.IsKeyDown( DirectX::Keyboard::S ) ){
 		mc_selectDevice--;
 	}
-
-	if (g_player.GetInstance().GetDevicesState()->mc_gamePad.GetState(g_player.GetInstance().GetDword()).wButtons & static_cast<int>(kit::GamePad_Buttons::A)
-		|| g_player.GetInstance().GetDevicesState()->muptr_keyboard->GetState().Enter) {
+	if (padState.wButtons & static_cast<int>(kit::GamePad_Buttons::A) || keyState.IsKeyDown( DirectX::Keyboard::Enter )) {
 		if (0 == mc_selectDevice % 2) {
 			g_player.GetInstance().SetDevice(true);
 		}
@@ -30,15 +29,15 @@ void SelectDevice::SelectDevices() {
 			g_player.GetInstance().SetDevice(false);
 		}
 	}
-
+	g_player.GetInstance().GetDevicesState()->muptr_keyboard->Reset();
 }
 
 void SelectDevice::Update() {
 	SelectDevices();
-	if (0 == mc_selectDevice % 2) {
+	if (0 == abs( mc_selectDevice ) % 2) {
 		kit::Engine::g_sceneFonts.GetInstance().MoveFont(static_cast<int>(SelectDeviceFontList::Pointer), &kit::vec2(g_windowSize.x / 2 - 250, 200));
 	}
-	if (1 == mc_selectDevice % 2) {
+	if (1 == abs( mc_selectDevice ) % 2) {
 		kit::Engine::g_sceneFonts.GetInstance().MoveFont(static_cast<int>(SelectDeviceFontList::Pointer), &kit::vec2(g_windowSize.x / 2 - 250, 300));
 	}
 	kit::Engine::g_assetsManager.GetInstance().Update();
