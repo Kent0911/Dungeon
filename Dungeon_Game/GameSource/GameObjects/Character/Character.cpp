@@ -12,9 +12,10 @@ Character::~Character() {
 // TODO キャラクターの画像を貰ったらファイルネームを変える事
 HRESULT Character::LoadFile() {
 	HRESULT hr = S_OK;
-	hr = DirectX::CreateDDSTextureFromFile(kit::Engine::g_pd3dDevice, L"filename", nullptr, &mpd3d_texture);
+	hr = DirectX::CreateWICTextureFromFile(kit::Engine::g_pd3dDevice, L"Resource/Character/Character.jpg", nullptr, &mpd3d_texture);
 	if (FAILED(hr)) { return hr; }
 }
+
 
 void Character::Update() {
 

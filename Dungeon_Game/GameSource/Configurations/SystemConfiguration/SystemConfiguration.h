@@ -11,7 +11,7 @@ enum class WINDOW {
 	Left = 0,
 	Top = 0,
 	Right = 1080,
-	Bottom = 760,
+	Bottom = 800,
 	Width = Right - Left,
 	Height = Bottom - Top
 };

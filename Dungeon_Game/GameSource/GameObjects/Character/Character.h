@@ -7,6 +7,7 @@
 #include "../../../Library/KitLib/include/Kitlib.h"
 #include "../../../KitEngine/KitEngine.h"
 #include "../../../Library/DirectXTK/include/DDSTextureLoader.h"
+#include "../../../Library/DirectXTK/include/WICTextureLoader.h"
 #include "../../../Library/DirectXTK/include/SimpleMath.h"
 #include "../../../Library/DirectXTK/include/SpriteBatch.h"
 #include "../../../KitEngine/Render/Render.h"
