@@ -47,17 +47,20 @@ void Torch::KeyControl(Devices* _device) {
 	KeyMoveTorch(_device);
 	
 	//Keyboard Enter key or Mouse left click
-	if (_device->muptr_keyboard->GetState().Enter || _device->muptr_mouse->GetState().leftButton) {
+	if ( _device->muptr_keyboard->GetState().IsKeyDown( DirectX::Keyboard::Enter ) || _device->muptr_mouse->GetState().leftButton ) {
 		TurnOnLight();
 		mb_isUsed = true;
 		g_player.GetInstance().SubTorchsCounts();
 		g_player.GetInstance().SetModeFlag(static_cast<char>(MODE::Player));
+		g_player.GetInstance().ChangeMode(static_cast<char>(MODE::Player));
 	}
 
 	// Keyboard T key or Mouse right click
-	if (_device->muptr_keyboard->GetState().T || _device->muptr_mouse->GetState().rightButton) {
+	if (_device->muptr_keyboard->GetState().IsKeyDown( DirectX::Keyboard::T ) || _device->muptr_mouse->GetState().rightButton ) {
 		g_player.GetInstance().SetModeFlag(static_cast<char>(MODE::Player));
+		g_player.GetInstance().ChangeMode(static_cast<char>(MODE::Player));
 	}
+	_device->muptr_keyboard->Reset();
 }
 
 void Torch::TurnOnLight() {

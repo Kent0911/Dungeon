@@ -4,31 +4,32 @@ Player::Player() {
 	md_gamePadNumber = mc_devices.mc_gamePad.AssignNumber();
 	mc_devices.muptr_keyboard = std::make_unique<DirectX::Keyboard>();
 	mc_devices.muptr_mouse = std::make_unique<DirectX::Mouse>();
-	mfunc_UpdateFunc = &Player::ControlTitle;
+	mfunc_updateFunc = &Player::ControlTitle;
 	mc_sceneNumber = START_SCENE_NUMBER;
 }
 
 void Player::GameSetup() {
-	muptr_character.reset(new Character());
+	muptr_character.reset( new Character() );
+	muptr_camera.reset( new Camera() );
 	switch (mc_selectedDifficulty) {
-	case static_cast<char>(DIFFICULTY::Tutorial) :
-		StockTorchs(static_cast<char>(DIFFICULTY::Tutorial));
-		StockLeadingInsects(static_cast<unsigned char>(DIFFICULTY::Tutorial));
+		case static_cast<char>(DIFFICULTY::Tutorial) :
+			StockTorchs(static_cast<char>(STOCK_TORCHS::Tutorial));
+			StockLeadingInsects(static_cast<unsigned char>(STOCK_LEADINGINSECT::Tutorial));
 		break;
 
 	case static_cast<char>(DIFFICULTY::Easy) :
-		StockTorchs(static_cast<char>(STOCK_TORCHS::Easy));
-		StockLeadingInsects(static_cast<char>(STOCK_LEADINGINSECT::Easy));
+			StockTorchs(static_cast<char>(STOCK_TORCHS::Easy));
+			StockLeadingInsects(static_cast<char>(STOCK_LEADINGINSECT::Easy));
 		break;
 
 	case static_cast<char>(DIFFICULTY::Normal):
-		StockTorchs(static_cast<char>(STOCK_TORCHS::Normal));
-		StockLeadingInsects(static_cast<char>(STOCK_LEADINGINSECT::Normal));
+			StockTorchs(static_cast<char>(STOCK_TORCHS::Normal));
+			StockLeadingInsects(static_cast<char>(STOCK_LEADINGINSECT::Normal));
 		break;
 
 	case static_cast<char>(DIFFICULTY::Hard) :
-		StockTorchs(static_cast<char>(STOCK_TORCHS::Hard));
-		StockLeadingInsects(static_cast<char>(STOCK_LEADINGINSECT::Hard));
+			StockTorchs(static_cast<char>(STOCK_TORCHS::Hard));
+			StockLeadingInsects(static_cast<char>(STOCK_LEADINGINSECT::Hard));
 		break;
 	}
 }
@@ -75,41 +76,46 @@ void Player::ChangeScene(kit::Engine::KitEngine* _engine) {
 }
 
 void Player::ControlTitle(kit::Engine::KitEngine* _engine) {
+	XINPUT_GAMEPAD padState = mc_devices.mc_gamePad.GetState(md_gamePadNumber);
+	DirectX::Keyboard::State keyState = mc_devices.muptr_keyboard->GetState();
 	// GamePad press start button or Keyboard enter key
-	if (static_cast<unsigned int>(kit::GamePad_Buttons::Start) & mc_devices.mc_gamePad.GetState(md_gamePadNumber).wButtons || mc_devices.muptr_keyboard->GetState().Enter) {
+	if (static_cast<unsigned int>( kit::GamePad_Buttons::Start ) & padState.wButtons || keyState.IsKeyDown( DirectX::Keyboard::Enter )) {
 		ChangeScene(_engine);
-		mfunc_UpdateFunc = &Player::ControlSelectDevice;
+		mfunc_updateFunc = &Player::ControlSelectDevice;
 	}
 	mc_devices.muptr_keyboard->Reset();
 }
 
 void Player::ControlSelectDevice(kit::Engine::KitEngine* _engine) {
-	if (static_cast<int>(kit::GamePad_Buttons::A) & mc_devices.mc_gamePad.GetState(md_gamePadNumber).wButtons || mc_devices.muptr_keyboard->GetState().Enter) {
+	XINPUT_GAMEPAD padState = mc_devices.mc_gamePad.GetState(md_gamePadNumber);
+	DirectX::Keyboard::State keyState = mc_devices.muptr_keyboard->GetState();
+
+	if (static_cast<int>(kit::GamePad_Buttons::A) & padState.wButtons || keyState.IsKeyDown( DirectX::Keyboard::Enter )) {
 		ChangeScene(_engine);
-		if (mb_SelectedGamePad) {
-			mfunc_UpdateFunc = &Player::PadControlGameMain;
+		if ( static_cast<bool>(DEVICE::GamePad) == mb_SelectedGamePad ) {
+			mfunc_updateFunc = &Player::PadControlGameMain;
 		}
 		else {
-			mfunc_UpdateFunc = &Player::KeyControlGameMain;
+			mfunc_updateFunc = &Player::KeyControlGameMain;
 		}
 	}
 }
 
 void Player::ChangeMode() {
-	if (mb_SelectedGamePad) {// true
-		if (static_cast<char>(MODE::Player) & mc_changeModeFlag) {
-			mfunc_UpdateFunc = &Player::PadControlGameMain;
+	if ( static_cast<bool>(DEVICE::GamePad) == mb_SelectedGamePad ) {
+		if ( static_cast<char>(MODE::Player) & mc_changeModeFlag ) {
+			mfunc_updateFunc = &Player::PadControlGameMain;
 		}
-		if (static_cast<char>(MODE::Torch) & mc_changeModeFlag) {
-			mfunc_UpdateFunc = &Player::PadControlTorch;
+		if ( static_cast<char>(MODE::Torch) & mc_changeModeFlag ) {
+			mfunc_updateFunc = &Player::PadControlTorch;
 		}
 	}
-	else {// false
-		if (static_cast<char>(MODE::Player) & mc_changeModeFlag) {
-			mfunc_UpdateFunc = &Player::KeyControlGameMain;
+	else {// DEVICE::Keyboard == true
+		if ( static_cast<char>(MODE::Player) & mc_changeModeFlag ) {
+			mfunc_updateFunc = &Player::KeyControlGameMain;
 		}
-		if (static_cast<char>(MODE::Torch) & mc_changeModeFlag) {
-			mfunc_UpdateFunc = &Player::KeyControlTorch;
+		if ( static_cast<char>(MODE::Torch) & mc_changeModeFlag ) {
+			mfunc_updateFunc = &Player::KeyControlTorch;
 		}
 	}
 }
@@ -118,14 +124,17 @@ void Player::ChangeMode(char _mode) {
 	switch (_mode) {
 	case static_cast<char>(MODE::Player) :
 		mc_changeModeFlag = static_cast<char>(MODE::Player);
+		ChangeMode();
 		break;
 
 	case static_cast<char>(MODE::Torch) :
 		mc_changeModeFlag = static_cast<char>(MODE::Torch);
+		ChangeMode();
 		break;
 
 	default:
 		mc_changeModeFlag = static_cast<char>(MODE::Player);
+		ChangeMode();
 	}
 }
 
@@ -148,8 +157,8 @@ void Player::PadControlGameMain(kit::Engine::KitEngine* _engine) {
 	if (static_cast<unsigned int>(kit::GamePad_Buttons::L1) & mc_devices.mc_gamePad.GetState(md_gamePadNumber).wButtons) {
 		mc_isActiveTorchsNumber = FindUsableTorch();
 		ChangeMode(static_cast<char>(MODE::Torch));
-		ChangeMode();
 	}
+	muptr_camera->Update();
 }
 
 void Player::PadControlTorch(kit::Engine::KitEngine*) {
@@ -157,21 +166,21 @@ void Player::PadControlTorch(kit::Engine::KitEngine*) {
 }
 
 void Player::KeyMove() {
-	if (mc_devices.muptr_keyboard->GetState().A) {
+	if (mc_devices.muptr_keyboard->GetState().IsKeyDown( DirectX::Keyboard::A )) {
 		muptr_character->MovePosX(-MOVE_SPEED);
 	}
-	if (mc_devices.muptr_keyboard->GetState().D) {
+	if (mc_devices.muptr_keyboard->GetState().IsKeyDown( DirectX::Keyboard::D )) {
 		muptr_character->MovePosX(MOVE_SPEED);
 	}
 }
 
 void Player::KeyControlGameMain(kit::Engine::KitEngine* _engine) {
 	KeyMove();
-	if (mc_devices.muptr_keyboard->GetState().T) {
+	if (mc_devices.muptr_keyboard->GetState().IsKeyDown(DirectX::Keyboard::T)) {
 		mc_isActiveTorchsNumber = FindUsableTorch();
 		ChangeMode(static_cast<char>(MODE::Torch));
-		ChangeMode();
 	}
+	mc_devices.muptr_keyboard->Reset();
 }
 
 void Player::KeyControlTorch(kit::Engine::KitEngine*) {
@@ -179,6 +188,6 @@ void Player::KeyControlTorch(kit::Engine::KitEngine*) {
 }
 
 void Player::Update(kit::Engine::KitEngine* _engine) {
-	(this->*mfunc_UpdateFunc)(_engine);
+	(this->*mfunc_updateFunc)(_engine);
 
 }

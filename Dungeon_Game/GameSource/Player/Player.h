@@ -13,6 +13,7 @@
 #include "../../Library/DirectXTK/include/Mouse.h"
 #include "../../Library/DirectXTK/include/Keyboard.h"
 #include "../GameObjects/Character/Character.h"
+#include "../GameObjects/Camera/Camera.h"
 #include "../Scenes/Tutorial/Tutorial.h"
 #include "../Scenes/SelectDevice/SelectDevice.h"
 #include "../Scenes/GameMain/GameMain.h"
@@ -45,7 +46,9 @@ private:
 	DWORD								md_gamePadNumber;
 
 	std::unique_ptr<Character>			muptr_character;
+	std::unique_ptr<Camera>				muptr_camera;
 	unsigned char						mc_selectedDifficulty;
+	std::weak_ptr<kit::Engine::Scene>	mwptr_currentScene;
 	std::vector<Torch*>					mvec_torchs;
 	char								mc_isActiveTorchsNumber;
 	char								mc_havingTorchs;
@@ -55,7 +58,7 @@ private:
 	char								mc_changeModeFlag;
 	unsigned char						mc_sceneNumber;
 
-	void(Player::*mfunc_UpdateFunc)(kit::Engine::KitEngine*);
+	void(Player::*mfunc_updateFunc)(kit::Engine::KitEngine*);
 
 	void GameSetup();
 	void StockTorchs(const unsigned char _num);
@@ -64,6 +67,7 @@ private:
 	char FindUsableTorch();
 
 	void ChangeScene(kit::Engine::KitEngine* _engine);
+	
 	void ControlTitle(kit::Engine::KitEngine* _engine);
 	void ControlSelectDevice(kit::Engine::KitEngine* _engine);
 

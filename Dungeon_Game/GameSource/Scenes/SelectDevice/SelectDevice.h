@@ -21,6 +21,14 @@ public:
 
 	void SelectDevices();
 
+	inline void AddSelectDeviceCount() {
+		mc_selectDevice++;
+	}
+
+	inline void SubSelectDeviceCount() {
+		mc_selectDevice--;
+	}
+
 	virtual void Update();
 	virtual void Render();
 };

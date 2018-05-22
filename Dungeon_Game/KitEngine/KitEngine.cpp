@@ -32,8 +32,8 @@ HRESULT KitEngine::InitDevice(){
 
 	RECT rc;
 	GetClientRect(g_hWnd, &rc);
-	UINT width = rc.right - rc.left;
-	UINT height = rc.bottom - rc.top;
+	UINT width = rc.right - rc.left + 16;
+	UINT height = rc.bottom - rc.top  + 31;
 
 	UINT createDeviceFlags = 0;
 #ifdef _DEBUG
@@ -169,7 +169,7 @@ void KitEngine::Update() {
 }
 
 void KitEngine::Render() {
-	FLOAT clear_color[4] = { 0.0f,0.0f,1.0f,1.0f };
+	FLOAT clear_color[4] = { 0.5f,0.5f,0.5f,1.0f };
 	g_pImmediateContext->ClearRenderTargetView(g_pRenderTargetView, clear_color);
 
 	g_uptrSprites->Begin(DirectX::SpriteSortMode_Deferred);

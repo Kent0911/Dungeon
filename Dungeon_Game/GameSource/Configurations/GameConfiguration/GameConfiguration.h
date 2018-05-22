@@ -14,7 +14,7 @@
 #define START_SCENE_NUMBER (static_cast<unsigned char>(SCENE::Title))
 #define START_SCENE (std::make_shared<Title>())
 
-#define MOVE_SPEED (1.0f)
+#define MOVE_SPEED (10.0f)
 
 
 enum class SCENE : unsigned char {

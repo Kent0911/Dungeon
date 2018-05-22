@@ -135,6 +135,7 @@
   <ItemGroup>
     <ClCompile Include="GameSource\Configurations\GameConfiguration\GameConfiguration.cpp" />
     <ClCompile Include="GameSource\Configurations\SystemConfiguration\SystemConfiguration.cpp" />
+    <ClCompile Include="GameSource\GameObjects\Camera\Camera.cpp" />
     <ClCompile Include="GameSource\GameObjects\Character\Character.cpp" />
     <ClCompile Include="GameSource\GameObjects\LeadingInsect\LeadingInsect.cpp" />
     <ClCompile Include="GameSource\GameObjects\Torch\Torch.cpp" />
@@ -160,6 +161,7 @@
   <ItemGroup>
     <ClInclude Include="GameSource\Configurations\GameConfiguration\GameConfiguration.h" />
     <ClInclude Include="GameSource\Configurations\SystemConfiguration\SystemConfiguration.h" />
+    <ClInclude Include="GameSource\GameObjects\Camera\Camera.h" />
     <ClInclude Include="GameSource\GameObjects\Character\Character.h" />
     <ClInclude Include="GameSource\GameObjects\LeadingInsect\LeadingInsect.h" />
     <ClInclude Include="GameSource\GameObjects\Torch\Torch.h" />

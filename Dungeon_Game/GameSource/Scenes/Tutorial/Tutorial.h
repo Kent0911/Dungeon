@@ -10,6 +10,7 @@
 
 class Tutorial :public kit::Engine::Scene {
 private:
+	
 
 public:
 	Tutorial();

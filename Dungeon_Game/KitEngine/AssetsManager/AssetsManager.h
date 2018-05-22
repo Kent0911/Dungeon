@@ -23,7 +23,7 @@ namespace kit {
 
 		public:
 			inline void AddAsset(kit::Engine::KitBehaviour* _asset) {
-				mlis_assets.push_back(_asset);
+				mlis_assets.emplace_back(_asset);
 			}
 
 			bool ClearAssets();

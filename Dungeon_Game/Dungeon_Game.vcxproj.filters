@@ -89,6 +89,9 @@
     <Filter Include="GameSource\Stages\Tutorial">
       <UniqueIdentifier>{29d1b2cd-f31b-4286-a8b0-9748951de38d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameSource\GameObjects\Camera">
+      <UniqueIdentifier>{ade38878-444f-4b77-89f3-bd1bde3f5d19}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameSource\WinMain\WinMain.cpp">
@@ -160,6 +163,9 @@
     <ClCompile Include="KitEngine\Render\Render.cpp">
       <Filter>KitEngine\Render</Filter>
     </ClCompile>
+    <ClCompile Include="GameSource\GameObjects\Camera\Camera.cpp">
+      <Filter>GameSource\GameObjects\Camera</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="KitEngine\KitEngine.h">
@@ -227,6 +233,9 @@
     </ClInclude>
     <ClInclude Include="KitEngine\Render\Fonts\Fonts.h">
       <Filter>KitEngine\Render\Fonts</Filter>
+    </ClInclude>
+    <ClInclude Include="GameSource\GameObjects\Camera\Camera.h">
+      <Filter>GameSource\GameObjects\Camera</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

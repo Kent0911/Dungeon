@@ -15,14 +15,15 @@
 // ゲームで使用するグローバル変数
 //
 //--------------------------------------------------------------------------------------------------------------------------------------------
-extern Player g_player;
+extern Player							g_player;
+std::unique_ptr<kit::Engine::KitEngine> g_engine;
 
 //--------------------------------------------------------------------------------------------------------------------------------------------
 //
 // セットアップ関数
 //
 //--------------------------------------------------------------------------------------------------------------------------------------------
-kit::Engine::Config SetUp() {
+kit::Engine::Config Setup() {
 	kit::Engine::Config config;
 	config.mlp_str = (LPSTR)GAME_TITLE;
 	config.mc_frameRate.Numerator(static_cast<UINT>(FRAME_RATE::Numerator));
@@ -43,22 +44,23 @@ int WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPT
 	UNREFERENCED_PARAMETER(lpCmdLine);
 
 
-	kit::Engine::KitEngine* p_kitEngine = new kit::Engine::KitEngine(hInstance, nCmdShow, &SetUp());
+	//kit::Engine::KitEngine* p_kitEngine = new kit::Engine::KitEngine(hInstance, nCmdShow, &SetUp());
+	g_engine.reset(new kit::Engine::KitEngine(hInstance, nCmdShow, &Setup()));
 
 	MSG msg = { 0 };
-	while (WM_QUIT != msg.message) {
-		if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE)) {
-			TranslateMessage(&msg);
-			DispatchMessage(&msg);
+	while ( WM_QUIT != msg.message ) {
+		if ( PeekMessage( &msg, nullptr, 0, 0, PM_REMOVE )) {
+			TranslateMessage( &msg );
+			DispatchMessage( &msg );
 		}
 		else {
-			g_player.GetInstance().Update(p_kitEngine);
-			p_kitEngine->Update();
-			p_kitEngine->Render();
+			g_player.GetInstance().Update( g_engine.get() );
+			g_engine->Update();
+			g_engine->Render();
 		}
 	}
 
-	delete p_kitEngine;
+	g_engine.release();
 
 	return (int)msg.wParam;
 }

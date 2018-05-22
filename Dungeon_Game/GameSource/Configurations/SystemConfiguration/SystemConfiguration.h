@@ -10,8 +10,8 @@
 enum class WINDOW {
 	Left = 0,
 	Top = 0,
-	Right = 1080,
-	Bottom = 800,
+	Right = 1280,
+	Bottom = 720,
 	Width = Right - Left,
 	Height = Bottom - Top
 };
@@ -26,5 +26,10 @@ enum class FRAME_RATE {
 enum class DEVICE :bool {
 	GamePad = true,
 	KeyboradAndMouse = false
+};
+
+enum class TEXTURE :UINT {
+	Character = 200,
+	Block
 };
 

@@ -21,7 +21,7 @@ void SelectDevice::SelectDevices() {
 	if( keyState.IsKeyDown( DirectX::Keyboard::Down ) || keyState.IsKeyDown( DirectX::Keyboard::S ) ){
 		mc_selectDevice--;
 	}
-	if (padState.wButtons & static_cast<int>(kit::GamePad_Buttons::A) || keyState.IsKeyDown( DirectX::Keyboard::Enter )) {
+	if (padState.wButtons & static_cast<int>( kit::GamePad_Buttons::A ) || keyState.IsKeyDown( DirectX::Keyboard::Enter )) {
 		if (0 == mc_selectDevice % 2) {
 			g_player.GetInstance().SetDevice(true);
 		}

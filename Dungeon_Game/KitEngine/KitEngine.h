@@ -55,9 +55,9 @@ namespace kit {
 		public:
 			FrameRate();
 			~FrameRate();
-			FrameRate operator=(const FrameRate _frameRate);
+			FrameRate operator=( const FrameRate _frameRate );
 
-			inline void Numerator(const UINT _num) {
+			inline void Numerator( const UINT _num ) {
 				numerator = _num;
 			}
 			inline UINT Numerator() const {
@@ -86,13 +86,13 @@ namespace kit {
 			std::unique_ptr<SceneManager>	muptr_sceneManager;
 
 			HRESULT InitDevice();
-			HRESULT HCreateWindow(HINSTANCE _hInstance, int _nCmdShow);
+			HRESULT HCreateWindow( HINSTANCE _hInstance, int _nCmdShow );
 
 		public:
-			KitEngine(HINSTANCE _hInstance, int _nCmdShow, Config* _config);
+			KitEngine( HINSTANCE _hInstance, int _nCmdShow, Config* _config );
 			~KitEngine();
 
-			void ChangeScene(std::shared_ptr<Scene> _changeScene);
+			void ChangeScene( std::shared_ptr<Scene> _changeScene );
 
 			void Update();
 			void Render();

@@ -11,10 +11,12 @@
 #include "../../../Library/DirectXTK/include/SimpleMath.h"
 #include "../../../Library/DirectXTK/include/SpriteBatch.h"
 #include "../../../KitEngine/Render/Render.h"
+#include "../../Configurations/SystemConfiguration/SystemConfiguration.h"
 
 class Character :public kit::Engine::KitBehaviour {
 private:
-	ID3D11ShaderResourceView*	mpd3d_texture;
+	std::unique_ptr<ID3D11ShaderResourceView>		muptr_pd3dTexture;
+	bool											mb_isAnimated;
 	
 public:
 	Character();
@@ -30,6 +32,12 @@ public:
 	}
 	inline void MovePosY(const short _y) {
 		mvec_position.y += (float)_y;
+	}
+	inline void Animation(bool _flag) {
+		mb_isAnimated = _flag;
+	}
+	inline bool Animation() const {
+		return mb_isAnimated;
 	}
 
 	virtual void Update();
