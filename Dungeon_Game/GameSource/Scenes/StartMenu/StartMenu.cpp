@@ -2,7 +2,7 @@
 
 StartMenu::StartMenu() {
 	mc_sceneNumber = static_cast<unsigned char>(SCENE::StartMenu);
-	g_player.GetInstance().SetSceneNumber(mc_sceneNumber);
+	g_player.GetInstance().SceneNumber(mc_sceneNumber);
 }
 
 StartMenu::~StartMenu() {

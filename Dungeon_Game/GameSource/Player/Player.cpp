@@ -65,7 +65,6 @@ void Player::ChangeScene(kit::Engine::KitEngine* _engine) {
 
 	case static_cast<unsigned char>(SCENE::SelectDevice) :
 		_engine->ChangeScene(std::make_shared<Tutorial>());
-		GameSetup();
 		break;
 
 	case static_cast<unsigned char>(SCENE::StartMenu) :
@@ -91,14 +90,16 @@ void Player::ControlSelectDevice(kit::Engine::KitEngine* _engine) {
 	DirectX::Keyboard::State keyState = mc_devices.muptr_keyboard->GetState();
 
 	if (static_cast<int>(kit::GamePad_Buttons::A) & padState.wButtons || keyState.IsKeyDown( DirectX::Keyboard::Enter )) {
-		ChangeScene(_engine);
 		if ( static_cast<bool>(DEVICE::GamePad) == mb_SelectedGamePad ) {
 			mfunc_updateFunc = &Player::PadControlGameMain;
 		}
 		else {
 			mfunc_updateFunc = &Player::KeyControlGameMain;
 		}
+		GameSetup();
+		ChangeScene(_engine);
 	}
+	mc_devices.muptr_keyboard->Reset();
 }
 
 void Player::ChangeMode() {
@@ -189,5 +190,8 @@ void Player::KeyControlTorch(kit::Engine::KitEngine*) {
 
 void Player::Update(kit::Engine::KitEngine* _engine) {
 	(this->*mfunc_updateFunc)(_engine);
+}
 
+void Player::Render() {
+	muptr_character->Render();
 }

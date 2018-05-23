@@ -2,7 +2,7 @@
 
 GameMain::GameMain() {
 	mc_sceneNumber = static_cast<unsigned char>(SCENE::GameMain);
-	g_player.GetInstance().SetSceneNumber(mc_sceneNumber);
+	g_player.GetInstance().SceneNumber(mc_sceneNumber);
 }
 
 GameMain::~GameMain() {

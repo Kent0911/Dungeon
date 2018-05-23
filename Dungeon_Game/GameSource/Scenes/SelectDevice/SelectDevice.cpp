@@ -2,7 +2,7 @@
 
 SelectDevice::SelectDevice() {
 	mc_sceneNumber = static_cast<char>(SCENE::SelectDevice);
-	g_player.GetInstance().SetSceneNumber(mc_sceneNumber);
+	g_player.GetInstance().SceneNumber(mc_sceneNumber);
 	kit::Engine::g_sceneFonts.GetInstance().AddFontList(selectDeviceFont, static_cast<int>(SelectDeviceFontList::Max));
 	mc_selectDevice = 0;
 }
@@ -29,7 +29,6 @@ void SelectDevice::SelectDevices() {
 			g_player.GetInstance().SetDevice(false);
 		}
 	}
-	g_player.GetInstance().GetDevicesState()->muptr_keyboard->Reset();
 }
 
 void SelectDevice::Update() {

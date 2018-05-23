@@ -84,8 +84,11 @@ public:
 	inline DWORD GetDword() const {
 		return md_gamePadNumber;
 	}
-	inline void SetSceneNumber(const char _sceneNumber) {
+	inline void SceneNumber(const char _sceneNumber) {
 		mc_sceneNumber = _sceneNumber;
+	}
+	inline char SceneNumber() const {
+		return mc_sceneNumber;
 	}
 	inline void SetModeFlag(const char _flag) {
 		mc_changeModeFlag = _flag;
@@ -103,5 +106,6 @@ public:
 		return &mc_devices;
 	}
 	void Update(kit::Engine::KitEngine* _engine);
+	void Render();
 };
 

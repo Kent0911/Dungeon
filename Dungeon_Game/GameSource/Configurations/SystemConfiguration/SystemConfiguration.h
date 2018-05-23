@@ -29,7 +29,7 @@ enum class DEVICE :bool {
 };
 
 enum class TEXTURE :UINT {
-	Character = 200,
-	Block
+	Character = 50,
+	Block = 200,
 };
 

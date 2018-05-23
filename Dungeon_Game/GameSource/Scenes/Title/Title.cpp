@@ -2,7 +2,7 @@
 
 Title::Title() {
 	mc_sceneNumber = static_cast<unsigned char>(SCENE::Title);
-	g_player.GetInstance().SetSceneNumber(mc_sceneNumber);
+	g_player.GetInstance().SceneNumber(mc_sceneNumber);
 	kit::Engine::g_sceneFonts.GetInstance().AddFontList(titleFont, static_cast<int>(TitleFontList::Max));
 }
 

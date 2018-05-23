@@ -3,7 +3,6 @@
 #include <d3d11.h>
 #include <memory>
 
-#include "../../../KitEngine/KitBehaviour/KitBehaviour.h"
 #include "../../../Library/KitLib/include/Kitlib.h"
 #include "../../../KitEngine/KitEngine.h"
 #include "../../../Library/DirectXTK/include/DDSTextureLoader.h"
@@ -13,8 +12,10 @@
 #include "../../../KitEngine/Render/Render.h"
 #include "../../Configurations/SystemConfiguration/SystemConfiguration.h"
 
-class Character :public kit::Engine::KitBehaviour {
+class Character{
 private:
+	kit::vec3										mvec_position;
+	kit::axis										m_axis;
 	std::unique_ptr<ID3D11ShaderResourceView>		muptr_pd3dTexture;
 	bool											mb_isAnimated;
 	
@@ -40,6 +41,6 @@ public:
 		return mb_isAnimated;
 	}
 
-	virtual void Update();
-	virtual void Render();
+	void Update();
+	void Render();
 };
