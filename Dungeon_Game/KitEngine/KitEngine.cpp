@@ -113,8 +113,9 @@ HRESULT KitEngine::InitDevice(){
 	D3D11_DEPTH_STENCIL_VIEW_DESC descDSV;
 	ZeroMemory(&descDSV, sizeof(descDSV));
 	descDSV.Format = descDepth.Format;
-	descDSV.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
+	descDSV.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2DMS;
 	descDSV.Texture2D.MipSlice = 0;
+	descDSV.Flags = 0;
 	hr = g_pd3dDevice->CreateDepthStencilView(g_pDepthStencil, &descDSV, &g_pDepthStencilView);
 	if (FAILED(hr))
 		return hr;
@@ -171,6 +172,7 @@ void KitEngine::Update() {
 void KitEngine::Render() {
 	FLOAT clear_color[4] = { 0.5f,0.5f,0.5f,1.0f };
 	g_pImmediateContext->ClearRenderTargetView(g_pRenderTargetView, clear_color);
+	g_pImmediateContext->ClearDepthStencilView(g_pDepthStencilView, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 3);
 
 	g_uptrSprites->Begin(DirectX::SpriteSortMode_Deferred);
 

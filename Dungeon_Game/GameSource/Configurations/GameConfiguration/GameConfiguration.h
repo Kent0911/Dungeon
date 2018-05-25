@@ -15,6 +15,7 @@
 #define START_SCENE (std::make_shared<Title>())
 
 #define MOVE_SPEED (10.0f)
+#define FILTER_APPEARD_TIME ( 10.0f * 60 )
 
 
 enum class SCENE : unsigned char {

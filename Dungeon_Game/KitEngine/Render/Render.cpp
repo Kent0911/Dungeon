@@ -25,6 +25,8 @@ HRESULT kit::Engine::RenderInitalize() {
 	g_uptrBatch.reset(new DirectX::PrimitiveBatch<DirectX::VertexPositionColor>(g_pImmediateContext));
 	g_uptrBasicEffect.reset(new DirectX::BasicEffect(g_pd3dDevice));
 	g_uptrBasicEffect->SetVertexColorEnabled(true);
+
+	
 	
 	{
 		void const* shaderByteCode;

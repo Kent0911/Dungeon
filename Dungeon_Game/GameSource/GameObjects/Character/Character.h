@@ -5,6 +5,7 @@
 
 #include "../../../Library/KitLib/include/Kitlib.h"
 #include "../../../KitEngine/KitEngine.h"
+#include "../../../KitEngine/KitBehaviour/KitBehaviour.h"
 #include "../../../Library/DirectXTK/include/DDSTextureLoader.h"
 #include "../../../Library/DirectXTK/include/WICTextureLoader.h"
 #include "../../../Library/DirectXTK/include/SimpleMath.h"
@@ -12,10 +13,8 @@
 #include "../../../KitEngine/Render/Render.h"
 #include "../../Configurations/SystemConfiguration/SystemConfiguration.h"
 
-class Character{
+class Character:public kit::Engine::KitBehaviour{
 private:
-	kit::vec3										mvec_position;
-	kit::axis										m_axis;
 	std::unique_ptr<ID3D11ShaderResourceView>		muptr_pd3dTexture;
 	bool											mb_isAnimated;
 	
@@ -41,6 +40,6 @@ public:
 		return mb_isAnimated;
 	}
 
-	void Update();
-	void Render();
+	virtual void Update();
+	virtual void Render();
 };

@@ -14,7 +14,7 @@
 #include "../../Library/DirectXTK/include/Keyboard.h"
 #include "../GameObjects/Character/Character.h"
 #include "../GameObjects/Camera/Camera.h"
-#include "../Scenes/Tutorial/Tutorial.h"
+#include "../Scenes/GameMain/Tutorial/Tutorial.h"
 #include "../Scenes/SelectDevice/SelectDevice.h"
 #include "../Scenes/GameMain/GameMain.h"
 
@@ -106,6 +106,5 @@ public:
 		return &mc_devices;
 	}
 	void Update(kit::Engine::KitEngine* _engine);
-	void Render();
 };
 

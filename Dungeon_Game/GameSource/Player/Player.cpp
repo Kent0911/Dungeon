@@ -191,7 +191,3 @@ void Player::KeyControlTorch(kit::Engine::KitEngine*) {
 void Player::Update(kit::Engine::KitEngine* _engine) {
 	(this->*mfunc_updateFunc)(_engine);
 }
-
-void Player::Render() {
-	muptr_character->Render();
-}

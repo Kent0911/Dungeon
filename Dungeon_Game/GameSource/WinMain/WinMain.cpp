@@ -57,10 +57,6 @@ int WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPT
 			g_engine->Update();
 			g_player.GetInstance().Update( g_engine.get() );
 			g_engine->Render();
-			char sceneNumber = g_player.GetInstance().SceneNumber();
-			if (static_cast<char>(SCENE::Tutorial) == sceneNumber) {
-				g_player.GetInstance().Render();
-			}
 		}
 	}
 
