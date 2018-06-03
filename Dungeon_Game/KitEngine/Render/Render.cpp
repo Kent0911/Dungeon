@@ -6,6 +6,7 @@ using namespace kit::Engine;
 DirectX::XMMATRIX														kit::Engine::g_mWorld;
 DirectX::XMMATRIX														kit::Engine::g_mView;
 DirectX::XMMATRIX														kit::Engine::g_mProjection;
+ID3D11PixelShader*														kit::Engine::g_pPixcelShader;
 ID3D11InputLayout*														kit::Engine::g_pBatchInputLayout;
 std::unique_ptr<DirectX::CommonStates>									kit::Engine::g_uptrStates;
 std::unique_ptr<DirectX::EffectFactory>									kit::Engine::g_uptrFXFactry;
@@ -15,6 +16,7 @@ std::unique_ptr<DirectX::SpriteFont>									kit::Engine::g_uptrFonts;
 std::unique_ptr<DirectX::GeometricPrimitive>							kit::Engine::g_uptrShape;
 std::unique_ptr<DirectX::Model>											kit::Engine::g_uptrModel;
 std::unique_ptr<DirectX::PrimitiveBatch<DirectX::VertexPositionColor>>	kit::Engine::g_uptrBatch;
+std::unique_ptr<DirectX::IEffect>										kit::Engine::g_uptriEffect;
 
 HRESULT kit::Engine::RenderInitalize() {
 	HRESULT hr = S_OK;
@@ -38,9 +40,11 @@ HRESULT kit::Engine::RenderInitalize() {
 			DirectX::VertexPositionColor::InputElementCount,
 			shaderByteCode, byteCodeLength,
 			&g_pBatchInputLayout);
-
 		if (FAILED(hr)) { return hr; }
 	}
+
+	hr = kit::Engine::g_pd3dDevice->CreatePixelShader(&g_ps_main, sizeof(g_ps_main), nullptr, &g_pPixcelShader);
+
 	g_uptrFonts.reset(new DirectX::SpriteFont(g_pd3dDevice, L"Resource/Font/italic.spritefont"));
 
 	return S_OK;

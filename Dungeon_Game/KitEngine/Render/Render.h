@@ -5,6 +5,8 @@
 #include <string>
 #include <locale>
 #include <codecvt>
+#include <Effects.h>
+#include <effects.h>
 
 #include "../KitEngine.h"
 #include "../../Library/DirectXTK/include/CommonStates.h"
@@ -19,6 +21,7 @@
 #include "../../Library/DirectXTK/include/VertexTypes.h"
 #include "../../Library/KitLib/include/Kitlib.h"
 #include "Fonts\Fonts.h"
+#include "PixelShader/PixelShader.h"
 
 
 namespace kit {
@@ -26,6 +29,7 @@ namespace kit {
 		extern DirectX::XMMATRIX														g_mWorld;
 		extern DirectX::XMMATRIX														g_mView;
 		extern DirectX::XMMATRIX														g_mProjection;
+		extern ID3D11PixelShader*														g_pPixcelShader;
 		extern ID3D11InputLayout*														g_pBatchInputLayout;
 		extern std::unique_ptr<DirectX::CommonStates>									g_uptrStates;
 		extern std::unique_ptr<DirectX::EffectFactory>									g_uptrFXFactry;
@@ -35,6 +39,7 @@ namespace kit {
 		extern std::unique_ptr<DirectX::GeometricPrimitive>								g_uptrShape;
 		extern std::unique_ptr<DirectX::Model>											g_uptrModel;
 		extern std::unique_ptr<DirectX::PrimitiveBatch<DirectX::VertexPositionColor>>	g_uptrBatch;
+		extern std::unique_ptr<DirectX::IEffect>										g_uptriEffect;
 		
 
 		class CameraStatus {

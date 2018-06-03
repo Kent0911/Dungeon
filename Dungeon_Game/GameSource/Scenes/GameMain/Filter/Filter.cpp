@@ -27,5 +27,5 @@ bool Filter::Filtering() {
 }
 
 void Filter::Render() {
-	kit::Engine::g_uptrSprites->Draw(muptr_pd3dTexture.get(), DirectX::XMFLOAT2(0, 0),nullptr, mx_color);
+	kit::Engine::g_uptrSprites->Draw(muptr_pd3dTexture.get(), DirectX::XMFLOAT2(0, 0), nullptr, mx_color);
 }

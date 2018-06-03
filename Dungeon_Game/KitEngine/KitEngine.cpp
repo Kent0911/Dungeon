@@ -3,11 +3,13 @@
 using namespace kit;
 using namespace kit::Engine;
 
+
 HINSTANCE                           kit::Engine::g_hInst = nullptr;
 HWND                                kit::Engine::g_hWnd = nullptr;
 D3D_DRIVER_TYPE                     kit::Engine::g_driverType = D3D_DRIVER_TYPE_NULL;
 D3D_FEATURE_LEVEL                   kit::Engine::g_featureLevel = D3D_FEATURE_LEVEL_11_0;
 ID3D11Device*                       kit::Engine::g_pd3dDevice = nullptr;
+ID3D11RasterizerState*				kit::Engine::g_pd3dRasterizterState = nullptr;
 ID3D11DeviceContext*                kit::Engine::g_pImmediateContext = nullptr;
 IDXGISwapChain*                     kit::Engine::g_pSwapChain = nullptr;
 ID3D11RenderTargetView*             kit::Engine::g_pRenderTargetView = nullptr;
@@ -173,7 +175,8 @@ void KitEngine::Render() {
 	FLOAT clear_color[4] = { 0.5f,0.5f,0.5f,1.0f };
 	g_pImmediateContext->ClearRenderTargetView(g_pRenderTargetView, clear_color);
 	g_pImmediateContext->ClearDepthStencilView(g_pDepthStencilView, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 3);
-
+	g_pImmediateContext->PSSetShader(g_pPixcelShader, nullptr, 0);
+	
 	g_uptrSprites->Begin(DirectX::SpriteSortMode_Deferred);
 
 	muptr_sceneManager->Render();

@@ -30,16 +30,17 @@ namespace kit {
 		// DirectX11で使用するグローバル変数
 		//
 		//------------------------------------------------------------------------------------------------------------
-		extern HINSTANCE                           g_hInst;
-		extern HWND                                g_hWnd;
-		extern D3D_DRIVER_TYPE                     g_driverType;
-		extern D3D_FEATURE_LEVEL                   g_featureLevel;
-		extern ID3D11Device*                       g_pd3dDevice;
-		extern ID3D11DeviceContext*                g_pImmediateContext;
-		extern IDXGISwapChain*					   g_pSwapChain;
-		extern ID3D11RenderTargetView*             g_pRenderTargetView;
-		extern ID3D11Texture2D*                    g_pDepthStencil;
-		extern ID3D11DepthStencilView*             g_pDepthStencilView;
+		extern HINSTANCE							g_hInst;
+		extern HWND									g_hWnd;
+		extern D3D_DRIVER_TYPE						g_driverType;
+		extern D3D_FEATURE_LEVEL					g_featureLevel;
+		extern ID3D11Device*						g_pd3dDevice;
+		extern ID3D11RasterizerState*				g_pd3dRasterizterState;
+		extern ID3D11DeviceContext*					g_pImmediateContext;
+		extern IDXGISwapChain*						g_pSwapChain;
+		extern ID3D11RenderTargetView*				g_pRenderTargetView;
+		extern ID3D11Texture2D*						g_pDepthStencil;
+		extern ID3D11DepthStencilView*             	g_pDepthStencilView;
 		
 		//------------------------------------------------------------------------------------------------------------
 		//
