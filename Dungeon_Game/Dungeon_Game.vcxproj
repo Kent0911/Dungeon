@@ -156,6 +156,7 @@
     <ClCompile Include="KitEngine\KitEngine.cpp" />
     <ClCompile Include="KitEngine\Render\Fonts\Fonts.cpp" />
     <ClCompile Include="KitEngine\Render\Render.cpp" />
+    <ClCompile Include="KitEngine\Render\Sprites\Sprites.cpp" />
     <ClCompile Include="KitEngine\SceneManager\SceneManager.cpp" />
     <ClCompile Include="KitEngine\SceneManager\Scene\Scene.cpp" />
   </ItemGroup>
@@ -182,6 +183,10 @@
     <ClInclude Include="KitEngine\KitEngine.h" />
     <ClInclude Include="KitEngine\Render\Fonts\Fonts.h" />
     <ClInclude Include="KitEngine\Render\Render.h" />
+    <ClInclude Include="KitEngine\Render\Sprites\AlignedNew.h" />
+    <ClInclude Include="KitEngine\Render\Sprites\ConstantBuffer.h" />
+    <ClInclude Include="KitEngine\Render\Sprites\SharedResourcePool.h" />
+    <ClInclude Include="KitEngine\Render\Sprites\Sprites.h" />
     <ClInclude Include="KitEngine\SceneManager\SceneManager.h" />
     <ClInclude Include="KitEngine\SceneManager\Scene\Scene.h" />
   </ItemGroup>

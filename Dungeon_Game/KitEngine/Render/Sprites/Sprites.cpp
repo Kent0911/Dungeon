@@ -398,3 +398,461 @@ void Sprites::Impl::GrowSpriteQueue() {
 
 	mv_sortedSprites.clear();
 }
+
+void Sprites::Impl::PrePareForRendering() {
+	auto deviceContext = m_contextResources->deviceContext.Get();
+
+	auto blendState = m_blendState ? m_blendState.Get() : m_deviceResources->stateOjects.AlphaBlend();
+	auto depthStencilState = m_depthStencilState ? m_depthStencilState.Get() : m_deviceResources->stateOjects.DepthNone();
+	auto rasterizerState = m_rasterizerState ? m_rasterizerState.Get() : m_deviceResources->stateOjects.CullCounterClockwise();
+	auto samlperState = m_samlperState ? m_samlperState.Get() : m_deviceResources->stateOjects.LinearClamp();
+
+	deviceContext->OMGetBlendState(&blendState, nullptr, (UINT*)0xFFFFFFFF);
+	deviceContext->OMSetDepthStencilState(depthStencilState, 0);
+	deviceContext->RSSetState(rasterizerState);
+	deviceContext->PSSetSamplers(0, 1, &samlperState);
+
+	deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	deviceContext->IASetInputLayout(m_deviceResources->inputLayout.Get());
+	deviceContext->VSSetShader(m_deviceResources->vertexShader.Get(), nullptr, 0);
+	deviceContext->PSSetShader(m_deviceResources->pixelShader.Get(), nullptr, 0);
+
+#if !defined(_XBOX_ONE) || !defined(_TITLE)
+	auto vertexBuffer = m_contextResources->vertexBuffer.Get();
+	UINT vertexStride = sizeof(DirectX::VertexPositionColorTexture);
+	UINT vertexOffset = 0;
+
+	deviceContext->IASetVertexBuffers(0, 1, &vertexBuffer, &vertexStride, &vertexOffset);
+#endif
+
+	deviceContext->IASetIndexBuffer(m_deviceResources->indexBuffer.Get(), DXGI_FORMAT_R16_UINT, 0);
+
+	DirectX::XMMATRIX transformMatrix = (DXGI_MODE_ROTATION_UNSPECIFIED == md_rotation)
+		? m_transformMatrix
+		: (m_transformMatrix * GetViewportTransform(deviceContext, md_rotation));
+
+#if defined(_XBOX_ONE) && defined(_TITLE)
+	void* grfxMemory;
+	m_contextResources->constantBuffer.SetData(deviceContext, transformMatrix, &grfxMemory);
+
+	deviceContext->VSSetPlacementConstantBuffer(0, m_contextResources->constantBuffer.GetBuffer(), grfxMemory);
+#else
+	m_contextResources->constantBuffer.SetData(deviceContext, transformMatrix);
+
+	ID3D11Buffer* constantBuffer = m_contextResources->constantBuffer.GetBuffer();
+
+	deviceContext->VSSetConstantBuffers(0, 1, &constantBuffer);
+#endif
+
+	if (D3D11_DEVICE_CONTEXT_DEFERRED == deviceContext->GetType()) {
+		m_contextResources->vertexBufferPosition = 0;
+	}
+
+	if (m_setCustomShaders) { m_setCustomShaders(); }
+
+}
+
+void Sprites::Impl::Flushbatch() {
+	if (!m_spriteQueueCount) { return; }
+
+	SortSprites();
+
+	ID3D11ShaderResourceView* batchTexture = nullptr;
+	size_t batchStart = 0;
+
+	for (size_t pos = 0; pos < m_spriteQueueCount; ++pos) {
+		ID3D11ShaderResourceView* texture = mv_sortedSprites[pos]->texture;
+
+		_Analysis_assume_(texture != nullptr);
+		
+		if (texture != batchTexture) {
+			if (pos > batchStart) {
+				RenderBatch(batchTexture, &mv_sortedSprites[batchStart], pos - batchStart);
+			}
+
+			batchTexture = texture;
+			batchStart = pos;
+		}
+	}
+
+	RenderBatch(batchTexture, &mv_sortedSprites[batchStart], m_spriteQueueCount - batchStart);
+
+	m_spriteQueueCount = 0;
+	mv_spriteTextureReferences.clear();
+
+	if (SpriteSortMode_Deferred != m_sortMode) {
+		mv_sortedSprites.clear();
+	}
+}
+
+void Sprites::Impl::SortSprites() {
+	if (mv_sortedSprites.size() < m_spriteQueueCount) {
+		GrowSortedSprites();
+	}
+	switch (m_sortMode) {
+	case SpriteSortMode_Texture:
+		std::sort(mv_sortedSprites.begin(), mv_sortedSprites.begin() + m_spriteQueueCount, [](SpriteInfo const* x, SpriteInfo const* y)-> bool {
+			return x->texture < y->texture;
+		});
+		break;
+
+	case SpriteSortMode_BackToFront:
+		std::sort(mv_sortedSprites.begin(), mv_sortedSprites.begin() + m_spriteQueueCount, [](SpriteInfo const* x, SpriteInfo const* y)-> bool {
+			return x->originRotationDepth.w > y->originRotationDepth.w;
+		});
+		break;
+
+	case SpriteSortMode_FrontToBack:
+		std::sort(mv_sortedSprites.begin(), mv_sortedSprites.begin() + m_spriteQueueCount, [](SpriteInfo const* x, SpriteInfo const* y)-> bool {
+			return x->originRotationDepth.w < y->originRotationDepth.w;
+		});
+		break;
+
+	default:
+		break;
+	}
+}
+
+void Sprites::Impl::GrowSortedSprites() {
+	size_t previousSize = mv_sortedSprites.size();
+
+	mv_sortedSprites.resize(m_spriteQueueCount);
+
+	for (size_t s = previousSize; s < m_spriteQueueCount; ++s) {
+		mv_sortedSprites[s] = &muptr_spriteQueue[s];
+	}
+}
+
+_Use_decl_annotations_
+void Sprites::Impl::RenderBatch(ID3D11ShaderResourceView* _texture, SpriteInfo const* const* _sprites, size_t _count) {
+	auto deviceContext = m_contextResources->deviceContext.Get();
+
+	deviceContext->PSSetShaderResources(0, 1, &_texture);
+
+	DirectX::XMVECTOR textureSize = GetTextureSize(_texture);
+	DirectX::XMVECTOR inverseTextureSize = XMVectorReciprocal(textureSize);
+
+	while (_count > 0) {
+		size_t batchSize = _count;
+		size_t remainingSpace = MaxBatchSize - m_contextResources->vertexBufferPosition;
+
+		if (batchSize > remainingSpace) {
+			if (remainingSpace < MinBatchSize) {
+				m_contextResources->vertexBufferPosition = 0;
+
+				batchSize = (std::min)(_count, MaxBatchSize);
+			}
+			else {
+				batchSize = remainingSpace;
+			}
+		}
+#if defined(_XBOX_ONE) && defined(_TITLE)
+		void* grfxMemory = GraphicsMemory::Get().Allocate(deviceContext, sizeof(DirectX::VertexPositionColorTexture) * batchSize * VerticesPerSprite * 64);
+		auto vertices = static_cast<DirectX::VertexPositionColorTexture*>(grfxMemory);
+#else
+		D3D11_MAP mapType = (m_contextResources->vertexBufferPosition == 0) ? D3D11_MAP_WRITE_DISCARD : D3D11_MAP_WRITE_NO_OVERWRITE;
+
+		D3D11_MAPPED_SUBRESOURCE mappedBuffer;
+
+		ThrowIfFailed(deviceContext->Map(m_contextResources->vertexBuffer.Get(), 0, mapType, 0, &mappedBuffer));
+
+		auto vertices = static_cast<DirectX::VertexPositionColorTexture*>(mappedBuffer.pData) + m_contextResources->vertexBufferPosition * VerticesPerSprite;
+#endif
+		for (size_t s = 0; s < batchSize; ++s) {
+			assert(s < _count);
+			_Analysis_assume_(s < _count);
+			RenderSprite(_sprites[s], vertices, textureSize, inverseTextureSize);
+
+			vertices += VerticesPerSprite;
+		}
+
+#if defined(_XBOX_ONE) && defined(_TITLE)
+		deviceContext->IASetPlacementVertexBuffer(0, m_contextResources->vertexBuffer.Get(), grfxMemory, sizeof(DirectX::VertexPositionColorTexture));
+#else
+		deviceContext->Unmap(m_contextResources->vertexBuffer.Get(), 0);
+#endif
+
+		UINT startIndex = (UINT)m_contextResources->vertexBufferPosition * IndicesPerSprite;
+		UINT indexCount = (UINT)batchSize * IndicesPerSprite;
+
+		deviceContext->DrawIndexed(indexCount, startIndex, 0);
+
+#if !defined(_XBOX_ONE) || !defined(_TITLE)
+		m_contextResources->vertexBufferPosition += batchSize;
+#endif
+
+		_sprites += batchSize;
+		_count -= batchSize;
+	}
+}
+
+_Use_decl_annotations_
+void XM_CALLCONV Sprites::Impl::RenderSprite(SpriteInfo const* _sprite,
+	DirectX::VertexPositionColorTexture* _vertices,
+	DirectX::FXMVECTOR _textureSize,
+	DirectX::FXMVECTOR _inverseTextureSize) {
+	DirectX::XMVECTOR source = XMLoadFloat4A(&_sprite->source);
+	DirectX::XMVECTOR destination = XMLoadFloat4A(&_sprite->destination);
+	DirectX::XMVECTOR color = XMLoadFloat4A(&_sprite->color);
+	DirectX::XMVECTOR originRotationDepth = XMLoadFloat4A(&_sprite->originRotationDepth);
+
+	float rotation = _sprite->originRotationDepth.z;
+	int flags = _sprite->flags;
+
+	DirectX::XMVECTOR sourceSize = XMVectorSwizzle<2, 3, 2, 3>(source);
+	DirectX::XMVECTOR destinationSize = XMVectorSwizzle<2, 3, 2, 3>(destination);
+
+	DirectX::XMVECTOR isZeroMask = XMVectorEqual(sourceSize, XMVectorZero());
+	DirectX::XMVECTOR nonZeroSourceSize = XMVectorSelect(sourceSize, g_XMEpsilon, isZeroMask);
+
+	DirectX::XMVECTOR origin = XMVectorDivide(originRotationDepth, nonZeroSourceSize);
+
+	if (flags & SpriteInfo::SourceInTexels) {
+		source *= _inverseTextureSize;
+		sourceSize *= _inverseTextureSize;
+	}
+	else {
+		origin *= _inverseTextureSize;
+	}
+
+	if (!(flags & SpriteInfo::DestSizeInPixels)) {
+		destinationSize *= _textureSize;
+	}
+
+	DirectX::XMVECTOR rotationMatrix1;
+	DirectX::XMVECTOR rotationMatrix2;
+
+	if (0 != rotation) {
+		float sin, cos;
+
+		XMScalarSinCos(&sin, &cos, rotation);
+
+		DirectX::XMVECTOR sinV = XMLoadFloat(&sin);
+		DirectX::XMVECTOR cosV = XMLoadFloat(&cos);
+
+		rotationMatrix1 = XMVectorMergeXY(cosV, sinV);
+		rotationMatrix2 = XMVectorMergeXY(-sinV, cosV);
+	}
+	else {
+		rotationMatrix1 = g_XMIdentityR0;
+		rotationMatrix2 = g_XMIdentityR1;
+	}
+
+	static XMVECTORF32 cornerOffsets[VerticesPerSprite] =
+	{
+		{{{0,0,0,0}}},
+		{{{1,0,0,0}}},
+		{{{0,1,0,0}}},
+		{{{1,1,0,0}}},
+	};
+
+	static_assert(1 == SpriteEffects_FlipHorizontally &&
+		2 == SpriteEffects_FlipVertically, "If you change these enum values,the mirroring implemetation must be updated to match");
+
+	int mirrorBits = flags & 3;
+
+	for (int i = 0; i < VerticesPerSprite; ++i) {
+		DirectX::XMVECTOR cornerOffset = (cornerOffsets[i] - origin) * destinationSize;
+
+		DirectX::XMVECTOR position1 = XMVectorMultiplyAdd(XMVectorSplatX(cornerOffset), rotationMatrix1, destination);
+		DirectX::XMVECTOR position2 = XMVectorMultiplyAdd(XMVectorSplatY(cornerOffset), rotationMatrix2, position1);
+
+		DirectX::XMVECTOR position = XMVectorPermute<0, 1, 7, 6>(position2, originRotationDepth);
+
+		XMStoreFloat4(reinterpret_cast<XMFLOAT4*>(&_vertices[i].position), position);
+
+		XMStoreFloat4(&_vertices[i].color, color);
+
+		DirectX::XMVECTOR textureCoordinate = XMVectorMultiplyAdd(cornerOffsets[i ^ mirrorBits], sourceSize, source);
+
+		XMStoreFloat2(&_vertices[i].textureCoordinate, textureCoordinate);
+	}
+}
+
+
+
+DirectX::XMVECTOR Sprites::Impl::GetTextureSize(_In_ ID3D11ShaderResourceView* _texture) {
+	Microsoft::WRL::ComPtr<ID3D11Resource> resouce;
+
+	_texture->GetResource(&resouce);
+
+	Microsoft::WRL::ComPtr<ID3D11Texture2D> texture2D;
+
+	if (FAILED(resouce.As(&texture2D))) {
+		throw std::exception("Sprites can only draw Texture2D resources");
+	}
+
+	D3D11_TEXTURE2D_DESC desc;
+	texture2D->GetDesc(&desc);
+
+	DirectX::XMVECTOR size = XMVectorMergeXY(XMLoadInt(&desc.Width), XMLoadInt(&desc.Height));
+
+	return XMConvertVectorUIntToFloat(size, 0);
+}
+
+
+
+DirectX::XMMATRIX Sprites::Impl::GetViewportTransform(_In_ ID3D11DeviceContext* _deviceContext, DXGI_MODE_ROTATION _rotation) { 
+     if (!mb_setViewport) { 
+         UINT viewportCount = 1; 
+ 
+ 
+		 _deviceContext->RSGetViewports(&viewportCount, &md_viewPort);
+ 
+ 
+		 if (viewportCount != 1) { throw std::exception("No viewport is set"); }
+     } 
+ 
+
+     float xScale = (md_viewPort.Width > 0) ? 2.0f / md_viewPort.Width : 0.0f; 
+     float yScale = (md_viewPort.Height > 0) ? 2.0f / md_viewPort.Height : 0.0f; 
+ 
+ 
+     switch (_rotation) { 
+         case DXGI_MODE_ROTATION_ROTATE90: 
+             return DirectX::XMMATRIX 
+             ( 
+                 0, -yScale, 0, 0, 
+                 -xScale, 0, 0, 0, 
+                 0, 0, 1, 0, 
+                 1, 1, 0, 1 
+             ); 
+ 
+ 
+         case DXGI_MODE_ROTATION_ROTATE270: 
+             return DirectX::XMMATRIX 
+             ( 
+                 0, yScale, 0, 0, 
+                 xScale, 0, 0, 0, 
+                 0, 0, 1, 0, 
+                 -1, -1, 0, 1 
+             ); 
+ 
+
+         case DXGI_MODE_ROTATION_ROTATE180: 
+             return DirectX::XMMATRIX 
+             ( 
+                 -xScale, 0, 0, 0, 
+                 0, yScale, 0, 0, 
+                 0, 0, 1, 0, 
+                 1, -1, 0, 1 
+             ); 
+ 
+
+         default: 
+             return DirectX::XMMATRIX 
+             ( 
+                 xScale, 0, 0, 0, 
+                 0, -yScale, 0, 0, 
+                 0, 0, 1, 0, 
+                 -1, 1, 0, 1 
+             ); 
+     } 
+ } 
+
+
+Sprites::Sprites(_In_ ID3D11DeviceContext* _deviceContext) :pImpl(std::make_unique<Impl>(_deviceContext)) {
+
+}
+
+Sprites::Sprites(Sprites&& _moveFrom) noexcept :pImpl(std::move(_moveFrom.pImpl)) {
+
+}
+
+Sprites& Sprites::operator= (Sprites&& _moveFrom) noexcept {
+	pImpl = std::move(_moveFrom.pImpl);
+	return *this;
+}
+
+Sprites::~Sprites() {
+
+}
+
+_Use_decl_annotations_
+void XM_CALLCONV Sprites::Begin(SpriteSortMode _sortMode,
+	ID3D11BlendState* _blendState,
+	ID3D11SamplerState* _samplerState,
+	ID3D11DepthStencilState* _depthStencilState,
+	ID3D11RasterizerState* _rasterizerState,
+	std::function<void()> _setCustomShaders,
+	DirectX::FXMMATRIX _transformMatirx) {
+	pImpl->Begin(_sortMode, _blendState, _samplerState, _depthStencilState, _rasterizerState, _setCustomShaders, _transformMatirx);
+}
+
+void Sprites::End() {
+	pImpl->End();
+}
+
+_Use_decl_annotations_
+void XM_CALLCONV Sprites::Draw(ID3D11ShaderResourceView* _texture, DirectX::XMFLOAT2 const& _position, DirectX::FXMVECTOR _color) {
+	DirectX::XMVECTOR destination = XMVectorPermute<0, 1, 4, 5>(XMLoadFloat2(&_position), g_XMOne);
+
+	pImpl->Draw(_texture, destination, nullptr, _color, g_XMZero, 0);
+}
+
+_Use_decl_annotations_
+void XM_CALLCONV Sprites::Draw(ID3D11ShaderResourceView* _texture, 
+	DirectX::XMFLOAT2 const& _position, 
+	RECT const* _sourceRectangle,
+	DirectX::FXMVECTOR _color,
+	float _rotation,
+	DirectX::XMFLOAT2 const& _origin,
+	float _scale,
+	SpriteEffects _effects,
+	float _layerDepth) {
+	DirectX::XMVECTOR destination = XMVectorPermute<0, 1, 4, 4>(XMLoadFloat2(&_position), XMLoadFloat(&_scale));
+	
+	DirectX::XMVECTOR originRotationDepth = XMVectorSet(_origin.x, _origin.y, _rotation, _layerDepth);
+
+	pImpl->Draw(_texture, destination, _sourceRectangle, _color, originRotationDepth, _effects);
+}
+
+_Use_decl_annotations_
+void XM_CALLCONV Sprites::Draw(ID3D11ShaderResourceView* _texture,
+	DirectX::XMFLOAT2 const& _position,
+	RECT const* _sourceRectangle,
+	DirectX::FXMVECTOR _color,
+	float _rotation,
+	DirectX::XMFLOAT2 const& _origin,
+	DirectX::XMFLOAT2 const& _scale,
+	SpriteEffects _effects,
+	float _layerDepth) {
+	DirectX::XMVECTOR destination = XMVectorPermute<0, 1, 4, 5>(XMLoadFloat2(&_position), XMLoadFloat2(&_scale));
+
+	DirectX::XMVECTOR originRotationDepth = XMVectorSet(_origin.x, _origin.y, _rotation, _layerDepth);
+
+	pImpl->Draw(_texture, destination, _sourceRectangle, _color, originRotationDepth, _effects);
+}
+
+_Use_decl_annotations_
+void XM_CALLCONV Sprites::Draw(ID3D11ShaderResourceView* _texture, DirectX::XMFLOAT2 _position, DirectX::FXMVECTOR _color) {
+	DirectX::XMVECTOR destination = XMVectorPermute<0, 1, 4, 5>(XMLoadFloat2(&_position), g_XMOne);
+	pImpl->Draw(_texture, destination, nullptr, _color, g_XMZero, 0);
+}
+
+_Use_decl_annotations_
+void XM_CALLCONV Sprites::Draw(ID3D11ShaderResourceView* _texture1, DirectX::XMFLOAT2 const& _position1, DirectX::FXMVECTOR _color1,DirectX::XMFLOAT2 _scale1,
+	ID3D11ShaderResourceView* _texture2, DirectX::XMFLOAT2 const& _position2, DirectX::FXMVECTOR _color2, DirectX::XMFLOAT2 _scale2) {
+	DirectX::XMVECTOR destination1 = XMVectorPermute<0, 1, 4, 5>(XMLoadFloat2(&_position1), XMLoadFloat2(&_scale1));
+	DirectX::XMVECTOR destination2 = XMVectorPermute<0, 1, 4, 5>(XMLoadFloat2(&_position2), XMLoadFloat2(&_scale2));
+
+	_color1 * _color2;
+
+	pImpl->Draw(_texture1, destination1, nullptr, _color1, g_XMZero, 0);
+	pImpl->Draw(_texture2, destination2, nullptr, _color2, g_XMZero, 0);
+}
+
+void Sprites::SetRotation(DXGI_MODE_ROTATION _mode) {
+	pImpl->md_rotation = _mode;
+}
+
+DXGI_MODE_ROTATION Sprites::GetRotation() const {
+	return pImpl->md_rotation;
+}
+
+void Sprites::SetViewport(const D3D11_VIEWPORT& _viewPort) {
+	pImpl->mb_setViewport = true;
+	pImpl->md_viewPort = _viewPort;
+}
+
+

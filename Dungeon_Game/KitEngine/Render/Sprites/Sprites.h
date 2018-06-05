@@ -17,6 +17,7 @@
 #include <DirectXHelpers.h>
 #include <Windows.h>
 #include <algorithm>
+#include <GraphicsMemory.h>
 
 #include "../../../Library/DirectXTK/include/CommonStates.h"
 #include "../../../Library/DirectXTK/include/VertexTypes.h"
@@ -64,7 +65,13 @@ namespace kit {
 				_In_opt_ std::function<void __cdecl()> setCustomShaders = nullptr, DirectX::FXMMATRIX transformMatrix = DirectX::XMMatrixIdentity());
 			void __cdecl End();
 
-			void XM_CALLCONV Draw(_In_ ID3D11ShaderResourceView* _texture1, DirectX::XMFLOAT2 const& _position1, DirectX::FXMVECTOR _color1, ID3D11ShaderResourceView* _texture2, DirectX::XMFLOAT2 const& _position2, DirectX::FXMVECTOR _color2);
+			void XM_CALLCONV Draw(_In_ ID3D11ShaderResourceView* _texture, DirectX::XMFLOAT2 const& _position, DirectX::FXMVECTOR _color = DirectX::Colors::White);
+			void XM_CALLCONV Draw(_In_ ID3D11ShaderResourceView* _texture, DirectX::XMFLOAT2 const& _position, _In_opt_ RECT const* _sourceRectangle, DirectX::FXMVECTOR _color = DirectX::Colors::White, float _rotation = 0, DirectX::XMFLOAT2 const& _origin = mx_float2Zero, float _scale = 1, SpriteEffects _effects = SpriteEffects_None, float _layerDepth = 0);
+			void XM_CALLCONV Draw(_In_ ID3D11ShaderResourceView* _texture, DirectX::XMFLOAT2 const& _position, _In_opt_ RECT const* _sourceRectangle, DirectX::FXMVECTOR _color, float _rotation, DirectX::XMFLOAT2 const& _origin, DirectX::XMFLOAT2 const& _scale, SpriteEffects _effects = SpriteEffects_None, float _layerDepth = 0);
+
+			void XM_CALLCONV Draw(_In_ ID3D11ShaderResourceView* _texture, DirectX::XMFLOAT2 _position, DirectX::FXMVECTOR _color = DirectX::Colors::White);
+
+			void XM_CALLCONV Draw(_In_ ID3D11ShaderResourceView* _texture1, DirectX::XMFLOAT2 const& _position1, DirectX::FXMVECTOR _color1, DirectX::XMFLOAT2 _scale1, _In_ ID3D11ShaderResourceView* _texture2, DirectX::XMFLOAT2 const& _position2, DirectX::FXMVECTOR _color2, DirectX::XMFLOAT2 _scale2);
 			
 			void __cdecl SetRotation(DXGI_MODE_ROTATION _mode);
 			DXGI_MODE_ROTATION __cdecl GetRotation() const;
